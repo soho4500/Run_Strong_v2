@@ -1,1311 +1,1281 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.5">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px '.SF NS'}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px '.SF NS'; min-height: 16.0px}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Race Ready">
+<meta name="theme-color" content="#0A0A0A">
+<meta name="color-scheme" content="dark">
+<title>RACE READY · Complete Training System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  color-scheme: dark;
+  --ink: #0A0A0A;
+  --deep: #111111;
+  --card: #181818;
+  --panel: #1E1E1E;
+  --line: #272727;
+  --muted: #2E2E2E;
+  --gold: #C8913A;
+  --gold-pale: rgba(200,145,58,0.12);
+  --gold-dim: #7A5520;
+  --rose: #C45C6A;
+  --rose-pale: rgba(196,92,106,0.12);
+  --sage: #6B9E6E;
+  --sage-pale: rgba(107,158,110,0.12);
+  --sky: #5B8FAF;
+  --sky-pale: rgba(91,143,175,0.12);
+  --cream: #EAE0D0;
+  --text: #B8AFA4;
+  --dim: #5A5450;
+  --white: #F2EBE0;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--ink);
+  color: var(--text);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  line-height: 1.65;
+  min-height: 100vh;
+}
+
+/* NAVIGATION */
+.nav {
+  position: sticky; top: 0; z-index: 200;
+  background: var(--deep);
+  border-bottom: 1px solid var(--line);
+  display: flex; align-items: stretch;
+  overflow-x: auto; scrollbar-width: none;
+}
+.nav::-webkit-scrollbar { display:none; }
+
+.brand {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px; letter-spacing: 4px;
+  color: var(--gold);
+  padding: 0 24px;
+  display: flex; align-items: center;
+  border-right: 1px solid var(--line);
+  white-space: nowrap; min-width: fit-content;
+  text-shadow: 0 0 30px rgba(200,145,58,0.3);
+}
+
+.nav-tabs { display:flex; flex:1; }
+
+.tab {
+  padding: 13px 18px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--dim);
+  background: none; border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer; white-space: nowrap;
+  transition: color .2s, border-color .2s;
+}
+.tab:hover { color: var(--text); }
+.tab.active[data-page="program"]  { color: var(--gold);  border-bottom-color: var(--gold); }
+.tab.active[data-page="strength"] { color: var(--rose);  border-bottom-color: var(--rose); }
+.tab.active[data-page="running"]  { color: var(--sage);  border-bottom-color: var(--sage); }
+.tab.active[data-page="nutrition"]{ color: var(--gold);  border-bottom-color: var(--gold); }
+.tab.active[data-page="races"]    { color: var(--cream); border-bottom-color: var(--cream); }
+.tab.active[data-page="grocery"]  { color: var(--sky);   border-bottom-color: var(--sky); }
+
+/* PAGES */
+.page { display:none; animation: rise .35s ease both; }
+.page.active { display:block; }
+@keyframes rise { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+/* PAGE HERO */
+.hero {
+  padding: 52px 36px 40px;
+  border-bottom: 1px solid var(--line);
+  position: relative; overflow: hidden;
+}
+.hero::after {
+  content: '';
+  position: absolute; right:-100px; top:-100px;
+  width: 400px; height: 400px; border-radius: 50%;
+  background: radial-gradient(circle, var(--accent-color, var(--gold)) 0%, transparent 70%);
+  opacity: .05; pointer-events: none;
+}
+.eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--accent-color, var(--gold));
+  margin-bottom: 10px;
+}
+.hero h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(42px, 7vw, 72px);
+  letter-spacing: 4px; color: var(--white); line-height: .95;
+  margin-bottom: 14px;
+}
+.hero-sub { font-size: 18px; color: var(--dim); font-style: italic; max-width: 580px; }
+
+.wrap { max-width: 1080px; padding: 36px; }
+
+/* STAT STRIP */
+.stats {
+  display: flex; border: 1px solid var(--line); border-radius: 3px;
+  overflow: hidden; margin-bottom: 28px;
+}
+.stat { flex:1; padding:14px 16px; border-right: 1px solid var(--line); text-align:center; }
+.stat:last-child { border-right: none; }
+.stat-n {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px; letter-spacing: 1px; color: var(--white); line-height:1;
+}
+.stat-l {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--dim); margin-top: 3px;
+}
+
+/* SECTION LABEL */
+.slabel {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--accent-color, var(--gold));
+  margin-bottom: 6px;
+}
+h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 30px; letter-spacing: 3px; color: var(--white);
+  margin-bottom: 18px; line-height: 1;
+}
+h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 19px; font-weight: 600; color: var(--white);
+  margin-bottom: 10px;
+}
+
+/* CARDS */
+.grid { display:grid; gap:14px; }
+.grid-2 { grid-template-columns: repeat(auto-fill, minmax(320px,1fr)); }
+.grid-3 { grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); }
+.grid-4 { grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); }
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 3px; padding: 22px;
+}
+.card-accent-top { border-top: 2px solid var(--accent-color, var(--gold)); }
+.card p { font-size:15px; line-height:1.7; }
+.card strong { color: var(--white); font-weight:600; }
+.card em { color: var(--dim); }
+
+/* EXERCISE CARD */
+.ex-card {
+  background: var(--card); border: 1px solid var(--line); border-radius: 3px;
+  overflow: hidden; margin-bottom: 10px;
+}
+.ex-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 16px;
+  background: var(--panel); border-bottom: 1px solid var(--line);
+  cursor: pointer;
+  user-select: none;
+}
+.ex-header:hover { background: var(--muted); }
+.ex-name { font-size: 16px; font-weight: 600; color: var(--white); }
+.ex-sets {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 1px; color: var(--accent-color, var(--gold));
+  background: var(--gold-pale); padding: 3px 10px; border-radius: 2px;
+}
+.ex-sets.rose-sets { color: var(--rose); background: var(--rose-pale); }
+.ex-sets.sage-sets { color: var(--sage); background: var(--sage-pale); }
+.ex-body {
+  padding: 0 16px;
+  max-height: 0; overflow: hidden;
+  transition: max-height .35s ease, padding .35s ease;
+}
+.ex-body.open { max-height: 400px; padding: 14px 16px; }
+.ex-detail { font-size: 14px; line-height: 1.7; }
+.ex-detail .why { color: var(--sage); font-style: italic; margin-top: 6px; display:block; font-size:13px; }
+.ex-detail .cue { color: var(--gold); margin-top: 4px; display:block; font-size:13px; }
+.ex-toggle { font-family:'DM Mono',monospace; font-size:16px; color:var(--dim); transition:.2s; }
+.ex-toggle.open { transform:rotate(45deg); }
+
+/* TAGS */
+.tag {
+  display: inline-block;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+  padding: 3px 9px; border-radius: 2px; margin-right: 6px; margin-bottom: 4px;
+}
+.tag-gold  { background: var(--gold-pale);  color: var(--gold);  border: 1px solid var(--gold-dim); }
+.tag-rose  { background: var(--rose-pale);  color: var(--rose);  border: 1px solid rgba(196,92,106,.3); }
+.tag-sage  { background: var(--sage-pale);  color: var(--sage);  border: 1px solid rgba(107,158,110,.3); }
+.tag-sky   { background: var(--sky-pale);   color: var(--sky);   border: 1px solid rgba(91,143,175,.3); }
+.tag-cream { background: rgba(234,224,208,.07); color: var(--cream); border: 1px solid rgba(234,224,208,.2); }
+
+/* CALLOUT */
+.callout {
+  border-left: 3px solid var(--accent-color, var(--gold));
+  background: var(--panel); padding: 14px 18px;
+  border-radius: 0 3px 3px 0; margin: 18px 0; font-size: 15px;
+}
+.callout strong { color: var(--white); }
+
+.warning {
+  border: 1px solid rgba(196,92,106,.35);
+  background: rgba(196,92,106,.06);
+  padding: 14px 18px; border-radius: 3px; margin: 18px 0; font-size: 15px;
+}
+.warning-title {
+  font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--rose); margin-bottom: 8px;
+}
+
+hr.div { border: none; border-top: 1px solid var(--line); margin: 32px 0; }
+
+/* WEEK SELECTOR */
+.week-bar {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  padding: 24px 36px 0;
+}
+.wbtn {
+  padding: 6px 14px;
+  font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+  background: var(--card); border: 1px solid var(--line); border-radius: 2px;
+  color: var(--dim); cursor: pointer; transition: all .15s;
+}
+.wbtn:hover { color: var(--text); border-color: var(--dim); }
+.wbtn.active { background: var(--gold); color: var(--ink); border-color: var(--gold); font-weight:500; }
+.wbtn.race-wk { border-color: var(--rose); }
+.wbtn.race-wk.active { background: var(--rose); border-color: var(--rose); color: var(--white); }
+
+/* DAY GRID */
+.day-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px,1fr)); gap: 14px; padding: 20px 36px 36px; }
+
+.day-card { background: var(--card); border: 1px solid var(--line); border-radius: 3px; overflow:hidden; }
+.day-head {
+  padding: 11px 15px;
+  display: flex; justify-content: space-between; align-items: center;
+  background: var(--panel); border-bottom: 1px solid var(--line);
+}
+.day-name { font-family:'Bebas Neue',sans-serif; font-size:17px; letter-spacing:2px; color:var(--white); }
+.day-body { padding: 15px; }
+
+.meal-row {
+  display: grid; grid-template-columns: 72px 1fr;
+  gap: 8px; margin-bottom: 8px; font-size: 13px;
+}
+.meal-time { font-family:'DM Mono',monospace; font-size:9px; color: var(--gold); padding-top:3px; letter-spacing:1px; }
+.meal-text { line-height: 1.55; }
+.meal-text strong { color: var(--white); font-size:14px; }
+
+.cal-pill {
+  font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 1px;
+  background: var(--gold-pale); color: var(--gold); border: 1px solid var(--gold-dim);
+  padding: 2px 9px; border-radius: 2px; display:inline-block; margin-bottom: 10px;
+}
+
+.block-title {
+  font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+  padding-bottom: 5px; margin: 10px 0 8px;
+  border-bottom: 1px solid var(--line);
+}
+.run-t { color: var(--sage); }
+.str-t { color: var(--rose); }
+.nut-t { color: var(--gold); }
+
+/* RACE CARD */
+.race-card {
+  background: var(--card); border: 1px solid var(--line); border-radius: 3px;
+  display: grid; grid-template-columns: 130px 1fr;
+  overflow: hidden; margin-bottom: 16px;
+}
+.race-dt {
+  background: var(--muted); padding: 20px 14px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  border-right: 1px solid var(--line); text-align: center;
+}
+.r-mo { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--gold); }
+.r-dn { font-family:'Bebas Neue',sans-serif; font-size:48px; color:var(--white); line-height:.9; }
+.r-yr { font-family:'DM Mono',monospace; font-size:10px; color:var(--dim); }
+.race-info { padding: 20px 22px; }
+.race-title { font-family:'Bebas Neue',sans-serif; font-size:26px; letter-spacing:2px; color:var(--white); margin-bottom:4px; }
+.race-protocols { display: grid; grid-template-columns: repeat(auto-fill, minmax(175px,1fr)); gap: 10px; margin-top: 14px; }
+.proto {
+  background: var(--deep); border: 1px solid var(--line); border-radius: 2px; padding: 10px 12px;
+}
+.proto-t { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--sage); margin-bottom:5px; }
+.proto p { font-size:13px; line-height:1.55; }
+
+/* GROCERY */
+.grocery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px,1fr)); gap: 14px; }
+.g-cat { background: var(--card); border: 1px solid var(--line); border-radius: 3px; padding: 16px; }
+.g-cat h4 {
+  font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--gold); border-bottom: 1px solid var(--line); padding-bottom: 8px; margin-bottom: 10px;
+}
+.g-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 5px 0; font-size: 14px; border-bottom: 1px solid var(--line); cursor: pointer;
+}
+.g-item:last-child { border-bottom: none; }
+.g-item input { accent-color: var(--sage); width:14px; height:14px; cursor:pointer; flex-shrink:0; }
+.g-item label { cursor: pointer; line-height: 1.4; }
+.g-item.done label { text-decoration: line-through; color: var(--dim); }
+
+/* NUTRITION PAGE */
+.macro-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); gap: 14px; margin: 20px 0; }
+.macro-card {
+  background: var(--card); border: 1px solid var(--line); border-radius: 3px; padding: 18px;
+  border-top: 2px solid var(--accent-color, var(--gold));
+}
+.macro-n { font-family:'Bebas Neue',sans-serif; font-size:38px; color:var(--white); line-height:1; }
+.macro-u { font-family:'DM Mono',monospace; font-size:11px; color:var(--dim); margin-left:3px; }
+.macro-l { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--dim); margin-top:4px; }
+.macro-note { font-size:13px; color:var(--dim); margin-top:8px; line-height:1.5; }
+
+/* RESPONSIVE */
+@media(max-width:640px){
+  .wrap { padding:20px; }
+  .hero { padding:36px 20px 30px; }
+  .week-bar { padding:18px 20px 0; }
+  .day-grid { padding:14px 20px 28px; grid-template-columns:1fr; }
+  .race-card { grid-template-columns:1fr; }
+  .race-dt { flex-direction:row; gap:12px; padding:14px 16px; text-align:left; }
+  .r-dn { font-size:30px; }
+  .stats { flex-wrap:wrap; }
+  .stat { min-width:50%; border-bottom:1px solid var(--line); }
+}
+</style>
 </head>
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;html lang="en"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1">&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1">&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
-<p class="p1">&lt;title&gt;RACE READY · Complete Training System&lt;/title&gt;</p>
-<p class="p1">&lt;link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&amp;family=DM+Mono:wght@300;400;500&amp;display=swap" rel="stylesheet"&gt;</p>
-<p class="p1">&lt;style&gt;</p>
-<p class="p1">:root {</p>
-<p class="p1">  --ink: #0A0A0A;</p>
-<p class="p1">  --deep: #111111;</p>
-<p class="p1">  --card: #181818;</p>
-<p class="p1">  --panel: #1E1E1E;</p>
-<p class="p1">  --line: #272727;</p>
-<p class="p1">  --muted: #2E2E2E;</p>
-<p class="p1">  --gold: #C8913A;</p>
-<p class="p1">  --gold-pale: rgba(200,145,58,0.12);</p>
-<p class="p1">  --gold-dim: #7A5520;</p>
-<p class="p1">  --rose: #C45C6A;</p>
-<p class="p1">  --rose-pale: rgba(196,92,106,0.12);</p>
-<p class="p1">  --sage: #6B9E6E;</p>
-<p class="p1">  --sage-pale: rgba(107,158,110,0.12);</p>
-<p class="p1">  --sky: #5B8FAF;</p>
-<p class="p1">  --sky-pale: rgba(91,143,175,0.12);</p>
-<p class="p1">  --cream: #EAE0D0;</p>
-<p class="p1">  --text: #B8AFA4;</p>
-<p class="p1">  --dim: #5A5450;</p>
-<p class="p1">  --white: #F2EBE0;</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }</p>
-<p class="p2"><br></p>
-<p class="p1">html { scroll-behavior: smooth; }</p>
-<p class="p2"><br></p>
-<p class="p1">body {</p>
-<p class="p1">background: var(–ink);</p>
-<p class="p1">color: var(–text);</p>
-<p class="p1">font-family: ‘Cormorant Garamond’, serif;</p>
-<p class="p1">font-size: 17px;</p>
-<p class="p1">line-height: 1.65;</p>
-<p class="p1">min-height: 100vh;</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">/* ── NAVIGATION ── */</p>
-<p class="p1">.nav {</p>
-<p class="p1">position: sticky; top: 0; z-index: 200;</p>
-<p class="p1">background: var(–deep);</p>
-<p class="p1">border-bottom: 1px solid var(–line);</p>
-<p class="p1">display: flex; align-items: stretch;</p>
-<p class="p1">overflow-x: auto; scrollbar-width: none;</p>
-<p class="p1">}</p>
-<p class="p1">.nav::-webkit-scrollbar { display:none; }</p>
-<p class="p2"><br></p>
-<p class="p1">.brand {</p>
-<p class="p1">font-family: ‘Bebas Neue’, sans-serif;</p>
-<p class="p1">font-size: 18px; letter-spacing: 4px;</p>
-<p class="p1">color: var(–gold);</p>
-<p class="p1">padding: 0 24px;</p>
-<p class="p1">display: flex; align-items: center;</p>
-<p class="p1">border-right: 1px solid var(–line);</p>
-<p class="p1">white-space: nowrap; min-width: fit-content;</p>
-<p class="p1">text-shadow: 0 0 30px rgba(200,145,58,0.3);</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">.nav-tabs { display:flex; flex:1; }</p>
-<p class="p2"><br></p>
-<p class="p1">.tab {</p>
-<p class="p1">padding: 13px 18px;</p>
-<p class="p1">font-family: ‘DM Mono’, monospace;</p>
-<p class="p1">font-size: 10px; letter-spacing: 2px; text-transform: uppercase;</p>
-<p class="p1">color: var(–dim);</p>
-<p class="p1">background: none; border: none;</p>
-<p class="p1">border-bottom: 2px solid transparent;</p>
-<p class="p1">cursor: pointer; white-space: nowrap;</p>
-<p class="p1">transition: color .2s, border-color .2s;</p>
-<p class="p1">}</p>
-<p class="p1">.tab:hover { color: var(–text); }</p>
-<p class="p1">.tab.active[data-page=“program”]  { color: var(–gold);  border-bottom-color: var(–gold); }</p>
-<p class="p1">.tab.active[data-page=“strength”] { color: var(–rose);  border-bottom-color: var(–rose); }</p>
-<p class="p1">.tab.active[data-page=“running”]  { color: var(–sage);  border-bottom-color: var(–sage); }</p>
-<p class="p1">.tab.active[data-page=“nutrition”]{ color: var(–gold);  border-bottom-color: var(–gold); }</p>
-<p class="p1">.tab.active[data-page=“races”]    { color: var(–cream); border-bottom-color: var(–cream); }</p>
-<p class="p1">.tab.active[data-page=“grocery”]  { color: var(–sky);   border-bottom-color: var(–sky); }</p>
-<p class="p2"><br></p>
-<p class="p1">/* ── PAGES ── */</p>
-<p class="p1">.page { display:none; animation: rise .35s ease both; }</p>
-<p class="p1">.page.active { display:block; }</p>
-<p class="p1">@keyframes rise { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }</p>
-<p class="p2"><br></p>
-<p class="p1">/* ── PAGE HERO ── */</p>
-<p class="p1">.hero {</p>
-<p class="p1">padding: 52px 36px 40px;</p>
-<p class="p1">border-bottom: 1px solid var(–line);</p>
-<p class="p1">position: relative; overflow: hidden;</p>
-<p class="p1">}</p>
-<p class="p1">.hero::after {</p>
-<p class="p1">content: ‘’;</p>
-<p class="p1">position: absolute; right:-100px; top:-100px;</p>
-<p class="p1">width: 400px; height: 400px; border-radius: 50%;</p>
-<p class="p1">background: radial-gradient(circle, var(–accent-color, var(–gold)) 0%, transparent 70%);</p>
-<p class="p1">opacity: .05; pointer-events: none;</p>
-<p class="p1">}</p>
-<p class="p1">.eyebrow {</p>
-<p class="p1">font-family: ‘DM Mono’, monospace;</p>
-<p class="p1">font-size: 9px; letter-spacing: 4px; text-transform: uppercase;</p>
-<p class="p1">color: var(–accent-color, var(–gold));</p>
-<p class="p1">margin-bottom: 10px;</p>
-<p class="p1">}</p>
-<p class="p1">.hero h1 {</p>
-<p class="p1">font-family: ‘Bebas Neue’, sans-serif;</p>
-<p class="p1">font-size: clamp(42px, 7vw, 72px);</p>
-<p class="p1">letter-spacing: 4px; color: var(–white); line-height: .95;</p>
-<p class="p1">margin-bottom: 14px;</p>
-<p class="p1">}</p>
-<p class="p1">.hero-sub { font-size: 18px; color: var(–dim); font-style: italic; max-width: 580px; }</p>
-<p class="p2"><br></p>
-<p class="p1">.wrap { max-width: 1080px; padding: 36px; }</p>
-<p class="p2"><br></p>
-<p class="p1">/* ── STAT STRIP ── */</p>
-<p class="p1">.stats {</p>
-<p class="p1">display: flex; border: 1px solid var(–line); border-radius: 3px;</p>
-<p class="p1">overflow: hidden; margin-bottom: 28px;</p>
-<p class="p1">}</p>
-<p class="p1">.stat { flex:1; padding:14px 16px; border-right: 1px solid var(–line); text-align:center; }</p>
-<p class="p1">.stat:last-child { border-right: none; }</p>
-<p class="p1">.stat-n {</p>
-<p class="p1">font-family: ‘Bebas Neue’, sans-serif;</p>
-<p class="p1">font-size: 28px; letter-spacing: 1px; color: var(–white); line-height:1;</p>
-<p class="p1">}</p>
-<p class="p1">.stat-l {</p>
-<p class="p1">font-family: ‘DM Mono’, monospace;</p>
-<p class="p1">font-size: 8px; letter-spacing: 2px; text-transform: uppercase;</p>
-<p class="p1">color: var(–dim); margin-top: 3px;</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">/* ── SECTION LABEL ── */</p>
-<p class="p1">.slabel {</p>
-<p class="p1">font-family: ‘DM Mono’, monospace;</p>
-<p class="p1">font-size: 9px; letter-spacing: 3px; text-transform: uppercase;</p>
-<p class="p1">color: var(–accent-color, var(–gold));</p>
-<p class="p1">margin-bottom: 6px;</p>
-<p class="p1">}</p>
-<p class="p1">h2 {</p>
-<p class="p1">font-family: ‘Bebas Neue’, sans-serif;</p>
-<p class="p1">font-size: 30px; letter-spacing: 3px; color: var(–white);</p>
-<p class="p1">margin-bottom: 18px; line-height: 1;</p>
-<p class="p1">}</p>
-<p class="p1">h3 {</p>
-<p class="p1">font-family: ‘Cormorant Garamond’, serif;</p>
-<p class="p1">font-size: 19px; font-weight: 600; color: var(–white);</p>
-<p class="p1">margin-bottom: 10px;</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">/* ── CARDS ── */</p>
-<p class="p1">.grid { display:grid; gap:14px; }</p>
-<p class="p1">.grid-2 { grid-template-columns: repeat(auto-fill, minmax(320px,1fr)); }</p>
-<p class="p1">.grid-3 { grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); }</p>
-<p class="p1">.grid-4 { grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); }</p>
-<p class="p2"><br></p>
-<p class="p1">.card {</p>
-<p class="p1">background: var(–card);</p>
-<p class="p1">border: 1px solid var(–line);</p>
-<p class="p1">border-radius: 3px; padding: 22px;</p>
-<p class="p1">}</p>
-<p class="p1">.card-accent-top { border-top: 2px solid var(–accent-color, var(–gold)); }</p>
-<p class="p1">.card p { font-size:15px; line-height:1.7; }</p>
-<p class="p1">.card strong { color: var(–white); font-weight:600; }</p>
-<p class="p1">.card em { color: var(–dim); }</p>
-<p class="p2"><br></p>
-<p class="p1">/* ── EXERCISE CARD ── */</p>
-<p class="p1">.ex-card {</p>
-<p class="p1">background: var(–card); border: 1px solid var(–line); border-radius: 3px;</p>
-<p class="p1">overflow: hidden; margin-bottom: 10px;</p>
-<p class="p1">}</p>
-<p class="p1">.ex-header {</p>
-<p class="p1">display: flex; justify-content: space-between; align-items: center;</p>
-<p class="p1">padding: 12px 16px;</p>
-<p class="p1">background: var(–panel); border-bottom: 1px solid var(–line);</p>
-<p class="p1">cursor: pointer;</p>
-<p class="p1">user-select: none;</p>
-<p class="p1">}</p>
-<p class="p1">.ex-header:hover { background: var(–muted); }</p>
-<p class="p1">.ex-name { font-size: 16px; font-weight: 600; color: var(–white); }</p>
-<p class="p1">.ex-sets {</p>
-<p class="p1">font-family: ‘DM Mono’, monospace;</p>
-<p class="p1">font-size: 10px; letter-spacing: 1px; color: var(–accent-color, var(–gold));</p>
-<p class="p1">background: var(–gold-pale); padding: 3px 10px; border-radius: 2px;</p>
-<p class="p1">}</p>
-<p class="p1">.ex-sets.rose-sets { color: var(–rose); background: var(–rose-pale); }</p>
-<p class="p1">.ex-sets.sage-sets { color: var(–sage); background: var(–sage-pale); }</p>
-<p class="p1">.ex-body {</p>
-<p class="p1">padding: 0 16px;</p>
-<p class="p1">max-height: 0; overflow: hidden;</p>
-<p class="p1">transition: max-height .35s ease, padding .35s ease;</p>
-<p class="p1">}</p>
-<p class="p1">.ex-body.open { max-height: 300px; padding: 14px 16px; }</p>
-<p class="p1">.ex-detail { font-size: 14px; line-height: 1.7; }</p>
-<p class="p1">.ex-detail .why { color: var(–sage); font-style: italic; margin-top: 6px; display:block; font-size:13px; }</p>
-<p class="p1">.ex-detail .cue { color: var(–gold); margin-top: 4px; display:block; font-size:13px; }</p>
-<p class="p1">.ex-toggle { font-family:‘DM Mono’,monospace; font-size:16px; color:var(–dim); transition:.2s; }</p>
-<p class="p1">.ex-toggle.open { transform:rotate(45deg); }</p>
-<p class="p2"><br></p>
-<p class="p1">/* ── TAGS ── */</p>
-<p class="p1">.tag {</p>
-<p class="p1">display: inline-block;</p>
-<p class="p1">font-family: ‘DM Mono’, monospace;</p>
-<p class="p1">font-size: 9px; letter-spacing: 2px; text-transform: uppercase;</p>
-<p class="p1">padding: 3px 9px; border-radius: 2px; margin-right: 6px; margin-bottom: 4px;</p>
-<p class="p1">}</p>
-<p class="p1">.tag-gold  { background: var(–gold-pale);  color: var(–gold);  border: 1px solid var(–gold-dim); }</p>
-<p class="p1">.tag-rose  { background: var(–rose-pale);  color: var(–rose);  border: 1px solid rgba(196,92,106,.3); }</p>
-<p class="p1">.tag-sage  { background: var(–sage-pale);  color: var(–sage);  border: 1px solid rgba(107,158,110,.3); }</p>
-<p class="p1">.tag-sky   { background: var(–sky-pale);   color: var(–sky);   border: 1px solid rgba(91,143,175,.3); }</p>
-<p class="p1">.tag-cream { background: rgba(234,224,208,.07); color: var(–cream); border: 1px solid rgba(234,224,208,.2); }</p>
-<p class="p2"><br></p>
-<p class="p1">/* ── CALLOUT ── */</p>
-<p class="p1">.callout {</p>
-<p class="p1">border-left: 3px solid var(–accent-color, var(–gold));</p>
-<p class="p1">background: var(–panel); padding: 14px 18px;</p>
-<p class="p1">border-radius: 0 3px 3px 0; margin: 18px 0; font-size: 15px;</p>
-<p class="p1">}</p>
-<p class="p1">.callout strong { color: var(–white); }</p>
-<p class="p2"><br></p>
-<p class="p1">.warning {</p>
-<p class="p1">border: 1px solid rgba(196,92,106,.35);</p>
-<p class="p1">background: rgba(196,92,106,.06);</p>
-<p class="p1">padding: 14px 18px; border-radius: 3px; margin: 18px 0; font-size: 15px;</p>
-<p class="p1">}</p>
-<p class="p1">.warning-title {</p>
-<p class="p1">font-family: ‘DM Mono’, monospace; font-size: 9px; letter-spacing: 2px;</p>
-<p class="p1">text-transform: uppercase; color: var(–rose); margin-bottom: 8px;</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">hr.div { border: none; border-top: 1px solid var(–line); margin: 32px 0; }</p>
-<p class="p2"><br></p>
-<p class="p1">/* ── WEEK SELECTOR ── */</p>
-<p class="p1">.week-bar {</p>
-<p class="p1">display: flex; flex-wrap: wrap; gap: 8px;</p>
-<p class="p1">padding: 24px 36px 0;</p>
-<p class="p1">}</p>
-<p class="p1">.wbtn {</p>
-<p class="p1">padding: 6px 14px;</p>
-<p class="p1">font-family: ‘DM Mono’, monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase;</p>
-<p class="p1">background: var(–card); border: 1px solid var(–line); border-radius: 2px;</p>
-<p class="p1">color: var(–dim); cursor: pointer; transition: all .15s;</p>
-<p class="p1">}</p>
-<p class="p1">.wbtn:hover { color: var(–text); border-color: var(–dim); }</p>
-<p class="p1">.wbtn.active { background: var(–gold); color: var(–ink); border-color: var(–gold); font-weight:500; }</p>
-<p class="p1">.wbtn.race-wk { border-color: var(–rose); }</p>
-<p class="p1">.wbtn.race-wk.active { background: var(–rose); border-color: var(–rose); color: var(–white); }</p>
-<p class="p2"><br></p>
-<p class="p1">/* ── DAY GRID ── */</p>
-<p class="p1">.day-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px,1fr)); gap: 14px; padding: 20px 36px 36px; }</p>
-<p class="p2"><br></p>
-<p class="p1">.day-card { background: var(–card); border: 1px solid var(–line); border-radius: 3px; overflow:hidden; }</p>
-<p class="p1">.day-head {</p>
-<p class="p1">padding: 11px 15px;</p>
-<p class="p1">display: flex; justify-content: space-between; align-items: center;</p>
-<p class="p1">background: var(–panel); border-bottom: 1px solid var(–line);</p>
-<p class="p1">}</p>
-<p class="p1">.day-name { font-family:‘Bebas Neue’,sans-serif; font-size:17px; letter-spacing:2px; color:var(–white); }</p>
-<p class="p1">.day-body { padding: 15px; }</p>
-<p class="p2"><br></p>
-<p class="p1">.meal-row {</p>
-<p class="p1">display: grid; grid-template-columns: 72px 1fr;</p>
-<p class="p1">gap: 8px; margin-bottom: 8px; font-size: 13px;</p>
-<p class="p1">}</p>
-<p class="p1">.meal-time { font-family:‘DM Mono’,monospace; font-size:9px; color: var(–gold); padding-top:3px; letter-spacing:1px; }</p>
-<p class="p1">.meal-text { line-height: 1.55; }</p>
-<p class="p1">.meal-text strong { color: var(–white); font-size:14px; }</p>
-<p class="p2"><br></p>
-<p class="p1">.cal-pill {</p>
-<p class="p1">font-family: ‘DM Mono’, monospace; font-size: 10px; letter-spacing: 1px;</p>
-<p class="p1">background: var(–gold-pale); color: var(–gold); border: 1px solid var(–gold-dim);</p>
-<p class="p1">padding: 2px 9px; border-radius: 2px; display:inline-block; margin-bottom: 10px;</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">.block-title {</p>
-<p class="p1">font-family: ‘DM Mono’, monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase;</p>
-<p class="p1">padding-bottom: 5px; margin: 10px 0 8px;</p>
-<p class="p1">border-bottom: 1px solid var(–line);</p>
-<p class="p1">}</p>
-<p class="p1">.run-t { color: var(–sage); }</p>
-<p class="p1">.str-t { color: var(–rose); }</p>
-<p class="p1">.nut-t { color: var(–gold); }</p>
-<p class="p2"><br></p>
-<p class="p1">/* ── RACE CARD ── */</p>
-<p class="p1">.race-card {</p>
-<p class="p1">background: var(–card); border: 1px solid var(–line); border-radius: 3px;</p>
-<p class="p1">display: grid; grid-template-columns: 130px 1fr;</p>
-<p class="p1">overflow: hidden; margin-bottom: 16px;</p>
-<p class="p1">}</p>
-<p class="p1">.race-dt {</p>
-<p class="p1">background: var(–muted); padding: 20px 14px;</p>
-<p class="p1">display: flex; flex-direction: column; align-items: center; justify-content: center;</p>
-<p class="p1">border-right: 1px solid var(–line); text-align: center;</p>
-<p class="p1">}</p>
-<p class="p1">.r-mo { font-family:‘DM Mono’,monospace; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(–gold); }</p>
-<p class="p1">.r-dn { font-family:‘Bebas Neue’,sans-serif; font-size:48px; color:var(–white); line-height:.9; }</p>
-<p class="p1">.r-yr { font-family:‘DM Mono’,monospace; font-size:10px; color:var(–dim); }</p>
-<p class="p1">.race-info { padding: 20px 22px; }</p>
-<p class="p1">.race-title { font-family:‘Bebas Neue’,sans-serif; font-size:26px; letter-spacing:2px; color:var(–white); margin-bottom:4px; }</p>
-<p class="p1">.race-protocols { display: grid; grid-template-columns: repeat(auto-fill, minmax(175px,1fr)); gap: 10px; margin-top: 14px; }</p>
-<p class="p1">.proto {</p>
-<p class="p1">background: var(–deep); border: 1px solid var(–line); border-radius: 2px; padding: 10px 12px;</p>
-<p class="p1">}</p>
-<p class="p1">.proto-t { font-family:‘DM Mono’,monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(–sage); margin-bottom:5px; }</p>
-<p class="p1">.proto p { font-size:13px; line-height:1.55; }</p>
-<p class="p2"><br></p>
-<p class="p1">/* ── GROCERY ── */</p>
-<p class="p1">.grocery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px,1fr)); gap: 14px; }</p>
-<p class="p1">.g-cat { background: var(–card); border: 1px solid var(–line); border-radius: 3px; padding: 16px; }</p>
-<p class="p1">.g-cat h4 {</p>
-<p class="p1">font-family: ‘DM Mono’, monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase;</p>
-<p class="p1">color: var(–gold); border-bottom: 1px solid var(–line); padding-bottom: 8px; margin-bottom: 10px;</p>
-<p class="p1">}</p>
-<p class="p1">.g-item {</p>
-<p class="p1">display: flex; align-items: center; gap: 10px;</p>
-<p class="p1">padding: 5px 0; font-size: 14px; border-bottom: 1px solid var(–line); cursor: pointer;</p>
-<p class="p1">}</p>
-<p class="p1">.g-item:last-child { border-bottom: none; }</p>
-<p class="p1">.g-item input { accent-color: var(–sage); width:14px; height:14px; cursor:pointer; flex-shrink:0; }</p>
-<p class="p1">.g-item label { cursor: pointer; line-height: 1.4; }</p>
-<p class="p1">.g-item.done label { text-decoration: line-through; color: var(–dim); }</p>
-<p class="p2"><br></p>
-<p class="p1">/* ── NUTRITION PAGE ── */</p>
-<p class="p1">.macro-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); gap: 14px; margin: 20px 0; }</p>
-<p class="p1">.macro-card {</p>
-<p class="p1">background: var(–card); border: 1px solid var(–line); border-radius: 3px; padding: 18px;</p>
-<p class="p1">border-top: 2px solid var(–accent-color, var(–gold));</p>
-<p class="p1">}</p>
-<p class="p1">.macro-n { font-family:‘Bebas Neue’,sans-serif; font-size:38px; color:var(–white); line-height:1; }</p>
-<p class="p1">.macro-u { font-family:‘DM Mono’,monospace; font-size:11px; color:var(–dim); margin-left:3px; }</p>
-<p class="p1">.macro-l { font-family:‘DM Mono’,monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(–dim); margin-top:4px; }</p>
-<p class="p1">.macro-note { font-size:13px; color:var(–dim); margin-top:8px; line-height:1.5; }</p>
-<p class="p2"><br></p>
-<p class="p1">/* ── RESPONSIVE ── */</p>
-<p class="p1">@media(max-width:640px){</p>
-<p class="p1">.wrap { padding:20px; }</p>
-<p class="p1">.hero { padding:36px 20px 30px; }</p>
-<p class="p1">.week-bar { padding:18px 20px 0; }</p>
-<p class="p1">.day-grid { padding:14px 20px 28px; grid-template-columns:1fr; }</p>
-<p class="p1">.race-card { grid-template-columns:1fr; }</p>
-<p class="p1">.race-dt { flex-direction:row; gap:12px; padding:14px 16px; text-align:left; }</p>
-<p class="p1">.r-dn { font-size:30px; }</p>
-<p class="p1">.stats { flex-wrap:wrap; }</p>
-<p class="p1">.stat { min-width:50%; border-bottom:1px solid var(–line); }</p>
-<p class="p1">}</p>
-<p class="p1">&lt;/style&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- NAV --&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;nav class="nav"&gt;</p>
-<p class="p1">  &lt;div class="brand"&gt;RACE READY&lt;/div&gt;</p>
-<p class="p1">  &lt;div class="nav-tabs"&gt;</p>
-<p class="p1">    &lt;button class="tab active" data-page="program"   onclick="go('program')"&gt;Weekly Program&lt;/button&gt;</p>
-<p class="p1">    &lt;button class="tab"        data-page="strength"  onclick="go('strength')"&gt;Strength&lt;/button&gt;</p>
-<p class="p1">    &lt;button class="tab"        data-page="running"   onclick="go('running')"&gt;Running&lt;/button&gt;</p>
-<p class="p1">    &lt;button class="tab"        data-page="nutrition" onclick="go('nutrition')"&gt;Nutrition&lt;/button&gt;</p>
-<p class="p1">    &lt;button class="tab"        data-page="races"     onclick="go('races')"&gt;Race Calendar&lt;/button&gt;</p>
-<p class="p1">    &lt;button class="tab"        data-page="grocery"   onclick="go('grocery')"&gt;Grocery&lt;/button&gt;</p>
-<p class="p1">  &lt;/div&gt;</p>
-<p class="p1">&lt;/nav&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- ═══════════════════════════════════════════════════════</p>
-<p class="p1">     PAGE: WEEKLY PROGRAM (day-by-day tabs)</p>
-<p class="p1">═══════════════════════════════════════════════════════ --&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div id="page-program" class="page active"&gt;</p>
-<p class="p1">  &lt;div class="hero" style="--accent-color:var(--gold)"&gt;</p>
-<p class="p1">    &lt;div class="eyebrow"&gt;Day-by-Day · Full Integration&lt;/div&gt;</p>
-<p class="p1">    &lt;h1&gt;WEEKLY PROGRAM&lt;/h1&gt;</p>
-<p class="p1">    &lt;p class="hero-sub"&gt;Running + Strength + Nutrition · Matched to your race calendar&lt;/p&gt;</p>
-<p class="p1">  &lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">  &lt;div class="week-bar" id="weekBar"&gt;&lt;/div&gt;</p>
-<p class="p1">  &lt;div class="day-grid" id="dayGrid"&gt;&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- ═══════════════════════════════════════════════════════</p>
-<p class="p1">     PAGE: STRENGTH</p>
-<p class="p1">═══════════════════════════════════════════════════════ --&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div id="page-strength" class="page"&gt;</p>
-<p class="p1">  &lt;div class="hero" style="--accent-color:var(--rose)"&gt;</p>
-<p class="p1">    &lt;div class="eyebrow"&gt;Runner Strength · Injury Prevention · Aesthetics&lt;/div&gt;</p>
-<p class="p1">    &lt;h1&gt;STRENGTH PLAN&lt;/h1&gt;</p>
-<p class="p1">    &lt;p class="hero-sub"&gt;Bulletproof knees, hips &amp; ankles — and the body to match&lt;/p&gt;</p>
-<p class="p1">  &lt;/div&gt;</p>
-<p class="p1">  &lt;div class="wrap"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">```</p>
-<p class="p1">&lt;div class="stats"&gt;</p>
-<p class="p1">  &lt;div class="stat"&gt;&lt;div class="stat-n"&gt;3×&lt;/div&gt;&lt;div class="stat-l"&gt;Per Week&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1">  &lt;div class="stat"&gt;&lt;div class="stat-n"&gt;45&lt;/div&gt;&lt;div class="stat-l"&gt;Min / Session&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1">  &lt;div class="stat"&gt;&lt;div class="stat-n"&gt;Single&lt;/div&gt;&lt;div class="stat-l"&gt;Leg Priority&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1">  &lt;div class="stat"&gt;&lt;div class="stat-n"&gt;Every&lt;/div&gt;&lt;div class="stat-l"&gt;Session Has Core&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="callout" style="--accent-color:var(--rose)"&gt;</p>
-<p class="p1">  &lt;strong&gt;The strategy:&lt;/strong&gt; Every session targets the injury triangle — knees, hips, ankles — with progressive loading that also builds the glutes, legs, and shoulders that make you look and feel incredible. You don't have to choose between protection and aesthetics. These are the same goals.</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- SESSION A --&gt;</p>
-<p class="p1">&lt;div class="slabel" style="color:var(--rose)"&gt;Session A · Monday or Tuesday&lt;/div&gt;</p>
-<p class="p1">&lt;h2&gt;GLUTES &amp; KNEE ARMOUR&lt;/h2&gt;</p>
-<p class="p1">&lt;p style="margin-bottom:18px;font-size:15px;color:var(--dim)"&gt;&lt;em&gt;Primary focus: glute development, VMO strength, knee tracking. Makes your legs look incredible and protects every footstrike.&lt;/em&gt;&lt;/p&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div id="sessionA"&gt;&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;hr class="div"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- SESSION B --&gt;</p>
-<p class="p1">&lt;div class="slabel" style="color:var(--rose)"&gt;Session B · Wednesday or Thursday&lt;/div&gt;</p>
-<p class="p1">&lt;h2&gt;POSTERIOR CHAIN &amp; HIP HEALTH&lt;/h2&gt;</p>
-<p class="p1">&lt;p style="margin-bottom:18px;font-size:15px;color:var(--dim)"&gt;&lt;em&gt;Hamstrings, hips, IT band support. The muscles that define a runner's physique and stop injuries before they start.&lt;/em&gt;&lt;/p&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div id="sessionB"&gt;&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;hr class="div"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- SESSION C --&gt;</p>
-<p class="p1">&lt;div class="slabel" style="color:var(--rose)"&gt;Session C · Friday or Saturday&lt;/div&gt;</p>
-<p class="p1">&lt;h2&gt;ANKLE STABILITY &amp; UPPER BODY&lt;/h2&gt;</p>
-<p class="p1">&lt;p style="margin-bottom:18px;font-size:15px;color:var(--dim)"&gt;&lt;em&gt;Ankle &amp; foot resilience, single-leg balance, shoulders and arms for that full-body athletic look.&lt;/em&gt;&lt;/p&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div id="sessionC"&gt;&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;hr class="div"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- DAILY MAINTENANCE --&gt;</p>
-<p class="p1">&lt;div class="slabel" style="color:var(--gold)"&gt;Daily · 10 Minutes&lt;/div&gt;</p>
-<p class="p1">&lt;h2&gt;INJURY PREVENTION ROUTINE&lt;/h2&gt;</p>
-<p class="p1">&lt;div class="grid grid-3" style="margin-bottom:28px"&gt;</p>
-<p class="p1">  &lt;div class="card card-accent-top" style="--accent-color:var(--sage)"&gt;</p>
-<p class="p1">    &lt;h3&gt;Morning (5 min)&lt;/h3&gt;</p>
-<p class="p1">    &lt;p&gt;&lt;strong&gt;Hip flexor stretch&lt;/strong&gt; 90s/side&lt;br&gt;</p>
-<p class="p1">    &lt;strong&gt;Ankle alphabet&lt;/strong&gt; 30s/foot&lt;br&gt;</p>
-<p class="p1">    &lt;strong&gt;Glute bridge&lt;/strong&gt; ×20 slow&lt;br&gt;</p>
-<p class="p1">    &lt;strong&gt;Cat-cow&lt;/strong&gt; ×10&lt;br&gt;</p>
-<p class="p1">    &lt;em&gt;Do this before coffee. Non-negotiable.&lt;/em&gt;&lt;/p&gt;</p>
-<p class="p1">  &lt;/div&gt;</p>
-<p class="p1">  &lt;div class="card card-accent-top" style="--accent-color:var(--gold)"&gt;</p>
-<p class="p1">    &lt;h3&gt;Post-Run (3 min)&lt;/h3&gt;</p>
-<p class="p1">    &lt;p&gt;&lt;strong&gt;Calf stretch&lt;/strong&gt; 60s/side&lt;br&gt;</p>
-<p class="p1">    &lt;strong&gt;IT band foam roll&lt;/strong&gt; 60s/side&lt;br&gt;</p>
-<p class="p1">    &lt;strong&gt;Pigeon pose&lt;/strong&gt; 60s/side&lt;br&gt;</p>
-<p class="p1">    &lt;em&gt;Every single run. No skipping.&lt;/em&gt;&lt;/p&gt;</p>
-<p class="p1">  &lt;/div&gt;</p>
-<p class="p1">  &lt;div class="card card-accent-top" style="--accent-color:var(--rose)"&gt;</p>
-<p class="p1">    &lt;h3&gt;Evening (2 min)&lt;/h3&gt;</p>
-<p class="p1">    &lt;p&gt;&lt;strong&gt;Eccentric calf lower&lt;/strong&gt; ×15/foot&lt;br&gt;</p>
-<p class="p1">    &lt;strong&gt;Clam shells&lt;/strong&gt; ×15/side&lt;br&gt;</p>
-<p class="p1">    &lt;strong&gt;Foot doming&lt;/strong&gt; ×20/foot&lt;br&gt;</p>
-<p class="p1">    &lt;em&gt;Watch TV. Do these. Done.&lt;/em&gt;&lt;/p&gt;</p>
-<p class="p1">  &lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="warning"&gt;</p>
-<p class="p1">  &lt;div class="warning-title"&gt;⚠ Knee Red Flags — Stop &amp; Rest&lt;/div&gt;</p>
-<p class="p1">  &lt;p style="font-size:14px"&gt;Pain (not soreness) during squats, going downstairs, or lateral movements. Sharp pain behind the kneecap. Swelling. Any pain that changes your gait. These mean rest + ice + assess — not push through.&lt;/p&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p1">```</p>
-<p class="p2"><br></p>
-<p class="p1">  &lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- ═══════════════════════════════════════════════════════</p>
-<p class="p1">     PAGE: RUNNING</p>
-<p class="p1">═══════════════════════════════════════════════════════ --&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div id="page-running" class="page"&gt;</p>
-<p class="p1">  &lt;div class="hero" style="--accent-color:var(--sage)"&gt;</p>
-<p class="p1">    &lt;div class="eyebrow"&gt;Periodized · Race-Specific&lt;/div&gt;</p>
-<p class="p1">    &lt;h1&gt;RUNNING PLAN&lt;/h1&gt;</p>
-<p class="p1">    &lt;p class="hero-sub"&gt;40–70km/week · 6:40–7:00/km · Sub-2:00 half marathon&lt;/p&gt;</p>
-<p class="p1">  &lt;/div&gt;</p>
-<p class="p1">  &lt;div class="wrap"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">```</p>
-<p class="p1">&lt;div class="stats"&gt;</p>
-<p class="p1">  &lt;div class="stat"&gt;&lt;div class="stat-n"&gt;4–5&lt;/div&gt;&lt;div class="stat-l"&gt;Runs / Week&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1">  &lt;div class="stat"&gt;&lt;div class="stat-n"&gt;1&lt;/div&gt;&lt;div class="stat-l"&gt;Long Run / Week&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1">  &lt;div class="stat"&gt;&lt;div class="stat-n"&gt;80%&lt;/div&gt;&lt;div class="stat-l"&gt;Easy Pace&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1">  &lt;div class="stat"&gt;&lt;div class="stat-n"&gt;6:40&lt;/div&gt;&lt;div class="stat-l"&gt;Race Target /km&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="grid grid-2" style="margin-bottom:28px"&gt;</p>
-<p class="p1">  &lt;div class="card card-accent-top" style="--accent-color:var(--sage)"&gt;</p>
-<p class="p1">    &lt;h3&gt;Run Types&lt;/h3&gt;</p>
-<p class="p1">    &lt;p&gt;&lt;strong&gt;Easy / Recovery:&lt;/strong&gt; 6:00–8:30 km/km — conversational. This is 80% of your volume. Most people run these too fast.&lt;br&gt;&lt;br&gt;</p>
-<p class="p1">    &lt;strong&gt;Tempo:&lt;/strong&gt; 5:50–6:10/km — comfortably hard. 20–40 min sustained.&lt;br&gt;&lt;br&gt;</p>
-<p class="p1">    &lt;strong&gt;Intervals:&lt;/strong&gt; 5:15–5:35/km — hard efforts with full rest. 400m–1km repeats.&lt;br&gt;&lt;br&gt;</p>
-<p class="p1">    &lt;strong&gt;Long Run:&lt;/strong&gt; 6:30–7:30/km — easy, build to 21–26km. Practice race nutrition.&lt;/p&gt;</p>
-<p class="p1">  &lt;/div&gt;</p>
-<p class="p1">  &lt;div class="card card-accent-top" style="--accent-color:var(--gold)"&gt;</p>
-<p class="p1">    &lt;h3&gt;Phase Overview&lt;/h3&gt;</p>
-<p class="p1">    &lt;p&gt;&lt;strong&gt;Phase 1 (Now–May 25):&lt;/strong&gt; Base + speed work. Sub-2 prep.&lt;br&gt;&lt;br&gt;</p>
-<p class="p1">    &lt;strong&gt;Phase 2 (Jun–Jul):&lt;/strong&gt; Trail adaptation, elevation, heat. Sinister 7 build.&lt;br&gt;&lt;br&gt;</p>
-<p class="p1">    &lt;strong&gt;Phase 3 (Jul–Aug):&lt;/strong&gt; Peak race block. Death Race + Black Spur back-to-back. Manage carefully.&lt;br&gt;&lt;br&gt;</p>
-<p class="p1">    &lt;strong&gt;Phase 4 (Sep–Oct):&lt;/strong&gt; Performance peak. Fort Mac PR attempt. Grizzly finale.&lt;br&gt;&lt;br&gt;</p>
-<p class="p1">    &lt;strong&gt;Off-season (Nov–Jan):&lt;/strong&gt; Recomp. Lower volume, heavy strength.&lt;br&gt;&lt;br&gt;</p>
-<p class="p1">    &lt;strong&gt;Phase 5 (Feb–Mar):&lt;/strong&gt; Big Island marathon build.&lt;/p&gt;</p>
-<p class="p1">  &lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="slabel"&gt;Weekly Structure&lt;/div&gt;</p>
-<p class="p1">&lt;h2&gt;YOUR TRAINING WEEK&lt;/h2&gt;</p>
-<p class="p1">&lt;div class="grid grid-2" style="margin-bottom:28px"&gt;</p>
-<p class="p1">  &lt;div class="card"&gt;&lt;p&gt;</p>
-<p class="p1">    &lt;strong&gt;Monday:&lt;/strong&gt; Easy run 6–8km + Strength A&lt;br&gt;</p>
-<p class="p1">    &lt;strong&gt;Tuesday:&lt;/strong&gt; Interval or Tempo run 8–12km&lt;br&gt;</p>
-<p class="p1">    &lt;strong&gt;Wednesday:&lt;/strong&gt; Strength B + optional easy 5km&lt;br&gt;</p>
-<p class="p1">    &lt;strong&gt;Thursday:&lt;/strong&gt; Easy-moderate run 8–12km&lt;br&gt;</p>
-<p class="p1">    &lt;strong&gt;Friday:&lt;/strong&gt; Strength C + strides (6×100m fast)&lt;br&gt;</p>
-<p class="p1">    &lt;strong&gt;Saturday:&lt;/strong&gt; Long run 15–26km (NO strength)&lt;br&gt;</p>
-<p class="p1">    &lt;strong&gt;Sunday:&lt;/strong&gt; Full rest or 30-min walk/yoga</p>
-<p class="p1">  &lt;/p&gt;&lt;/div&gt;</p>
-<p class="p1">  &lt;div class="card"&gt;</p>
-<p class="p1">    &lt;h3&gt;Injury Prevention Running Rules&lt;/h3&gt;</p>
-<p class="p1">    &lt;p&gt;</p>
-<p class="p1">    &lt;strong&gt;1.&lt;/strong&gt; Never increase weekly mileage more than 10% week-over-week.&lt;br&gt;</p>
-<p class="p1">    &lt;strong&gt;2.&lt;/strong&gt; One quality session per week max in the 6 weeks before a race.&lt;br&gt;</p>
-<p class="p1">    &lt;strong&gt;3.&lt;/strong&gt; If your legs feel heavy after a long run — the next run is EASY. No exceptions.&lt;br&gt;</p>
-<p class="p1">    &lt;strong&gt;4.&lt;/strong&gt; Cadence target: 170–180 steps/min. Short quick steps protect knees.&lt;br&gt;</p>
-<p class="p1">    &lt;strong&gt;5.&lt;/strong&gt; Replace shoes every 600–700km. Midsole breakdown = knee pain.</p>
-<p class="p1">    &lt;/p&gt;</p>
-<p class="p1">  &lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p1">```</p>
-<p class="p2"><br></p>
-<p class="p1">  &lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- ═══════════════════════════════════════════════════════</p>
-<p class="p1">     PAGE: NUTRITION</p>
-<p class="p1">═══════════════════════════════════════════════════════ --&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div id="page-nutrition" class="page"&gt;</p>
-<p class="p1">  &lt;div class="hero" style="--accent-color:var(--gold)"&gt;</p>
-<p class="p1">    &lt;div class="eyebrow"&gt;Performance · Body Composition · Breastfeeding&lt;/div&gt;</p>
-<p class="p1">    &lt;h1&gt;NUTRITION PLAN&lt;/h1&gt;</p>
-<p class="p1">    &lt;p class="hero-sub"&gt;Fuel to race fast, look incredible, and protect your milk supply&lt;/p&gt;</p>
-<p class="p1">  &lt;/div&gt;</p>
-<p class="p1">  &lt;div class="wrap"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">```</p>
-<p class="p1">&lt;div class="warning"&gt;</p>
-<p class="p1">  &lt;div class="warning-title"&gt;Breastfeeding Priority&lt;/div&gt;</p>
-<p class="p1">  &lt;p style="font-size:14px"&gt;Even at 13 months, nursing demands +300–500 cal/day and higher hydration. No aggressive cuts. You are body recomposing — losing fat while building muscle — which is more powerful than dieting and far safer while breastfeeding.&lt;/p&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="slabel"&gt;Daily Calorie Targets&lt;/div&gt;</p>
-<p class="p1">&lt;h2&gt;HOW MUCH TO EAT&lt;/h2&gt;</p>
-<p class="p1">&lt;div class="macro-grid" style="--accent-color:var(--gold)"&gt;</p>
-<p class="p1">  &lt;div class="macro-card"&gt;&lt;div class="macro-n"&gt;2400&lt;span class="macro-u"&gt;–2600&lt;/span&gt;&lt;/div&gt;&lt;div class="macro-l"&gt;Training Days&lt;/div&gt;&lt;div class="macro-note"&gt;6–10km runs. Full strength sessions.&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1">  &lt;div class="macro-card"&gt;&lt;div class="macro-n"&gt;2700&lt;span class="macro-u"&gt;–3000&lt;/span&gt;&lt;/div&gt;&lt;div class="macro-l"&gt;Long Run Days&lt;/div&gt;&lt;div class="macro-note"&gt;15km+. Add 80 cal/mile. Do NOT restrict.&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1">  &lt;div class="macro-card"&gt;&lt;div class="macro-n"&gt;2100&lt;span class="macro-u"&gt;–2300&lt;/span&gt;&lt;/div&gt;&lt;div class="macro-l"&gt;Rest Days&lt;/div&gt;&lt;div class="macro-note"&gt;Still elevated for nursing + repair.&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1">  &lt;div class="macro-card"&gt;&lt;div class="macro-n"&gt;145&lt;span class="macro-u"&gt;–160g&lt;/span&gt;&lt;/div&gt;&lt;div class="macro-l"&gt;Protein Daily&lt;/div&gt;&lt;div class="macro-note"&gt;The number that changes your body.&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1">  &lt;div class="macro-card"&gt;&lt;div class="macro-n"&gt;220&lt;span class="macro-u"&gt;–280g&lt;/span&gt;&lt;/div&gt;&lt;div class="macro-l"&gt;Carbs Daily&lt;/div&gt;&lt;div class="macro-note"&gt;Higher on long run / race days.&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1">  &lt;div class="macro-card"&gt;&lt;div class="macro-n"&gt;70&lt;span class="macro-u"&gt;–85g&lt;/span&gt;&lt;/div&gt;&lt;div class="macro-l"&gt;Fats Daily&lt;/div&gt;&lt;div class="macro-note"&gt;Hormones, brain, milk quality.&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;hr class="div"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="slabel"&gt;Your Actual Meals&lt;/div&gt;</p>
-<p class="p1">&lt;h2&gt;DAILY MEAL BLUEPRINT&lt;/h2&gt;</p>
-<p class="p1">&lt;div class="grid grid-2" style="margin-bottom:20px"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">  &lt;div class="card card-accent-top" style="--accent-color:var(--gold)"&gt;</p>
-<p class="p1">    &lt;span class="tag tag-gold"&gt;Breakfast · ~400 cal&lt;/span&gt;</p>
-<p class="p1">    &lt;h3&gt;Protein Power Shake&lt;/h3&gt;</p>
-<p class="p1">    &lt;p&gt;&lt;strong&gt;Base:&lt;/strong&gt; 200ml kefir + 1 scoop protein powder or 2 tbsp hemp seeds&lt;br&gt;</p>
-<p class="p1">    &lt;strong&gt;Add:&lt;/strong&gt; 1 cup mixed berries (frozen OK)&lt;br&gt;</p>
-<p class="p1">    &lt;strong&gt;Seeds:&lt;/strong&gt; 1 tbsp flaxseed + 1 tbsp pumpkin seeds + 1 tsp brewer's yeast&lt;br&gt;</p>
-<p class="p1">    &lt;strong&gt;Optional:&lt;/strong&gt; ½ banana for extra carbs on run days&lt;br&gt;&lt;br&gt;</p>
-<p class="p1">    &lt;em&gt;~35g protein · 40g carbs · 14g fat&lt;/em&gt;&lt;br&gt;</p>
-<p class="p1">    &lt;em&gt;Galactagogue stack: flax + brewer's yeast support milk supply.&lt;/em&gt;&lt;/p&gt;</p>
-<p class="p1">  &lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">  &lt;div class="card card-accent-top" style="--accent-color:var(--sage)"&gt;</p>
-<p class="p1">    &lt;span class="tag tag-sage"&gt;Lunch · ~450–500 cal&lt;/span&gt;</p>
-<p class="p1">    &lt;h3&gt;Simple Go-To Plate&lt;/h3&gt;</p>
-<p class="p1">    &lt;p&gt;&lt;strong&gt;Protein:&lt;/strong&gt; 3 whole eggs (scrambled or hard boiled) + ½ cup cottage cheese&lt;br&gt;</p>
-<p class="p1">    &lt;strong&gt;Carbs:&lt;/strong&gt; 3–4 rice cakes&lt;br&gt;</p>
-<p class="p1">    &lt;strong&gt;Fruit:&lt;/strong&gt; 1–2 bananas&lt;br&gt;</p>
-<p class="p1">    &lt;strong&gt;Optional:&lt;/strong&gt; handful of walnuts or drizzle of almond butter&lt;br&gt;&lt;br&gt;</p>
-<p class="p1">    &lt;em&gt;~38g protein · 55g carbs · 16g fat&lt;/em&gt;&lt;br&gt;</p>
-<p class="p1">    &lt;em&gt;Quick, portable, no cooking required. Perfect for busy mum life.&lt;/em&gt;&lt;/p&gt;</p>
-<p class="p1">  &lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">  &lt;div class="card card-accent-top" style="--accent-color:var(--rose)"&gt;</p>
-<p class="p1">    &lt;span class="tag tag-rose"&gt;Dinner · ~550–650 cal&lt;/span&gt;</p>
-<p class="p1">    &lt;h3&gt;Protein + Starch + Veg&lt;/h3&gt;</p>
-<p class="p1">    &lt;p&gt;&lt;strong&gt;Protein (180–200g):&lt;/strong&gt; Salmon · Chicken thigh · Lean beef · Turkey · Shrimp&lt;br&gt;</p>
-<p class="p1">    &lt;strong&gt;Starch:&lt;/strong&gt; 1–1.5 cups cooked rice OR 1 medium potato (any style)&lt;br&gt;</p>
-<p class="p1">    &lt;strong&gt;Veg:&lt;/strong&gt; 2 cups any roasted or steamed vegetables&lt;br&gt;</p>
-<p class="p1">    &lt;strong&gt;Fat:&lt;/strong&gt; Olive oil or butter for cooking&lt;br&gt;&lt;br&gt;</p>
-<p class="p1">    &lt;em&gt;~42g protein · 55g carbs · 20g fat&lt;/em&gt;&lt;/p&gt;</p>
-<p class="p1">  &lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">  &lt;div class="card card-accent-top" style="--accent-color:var(--sky)"&gt;</p>
-<p class="p1">    &lt;span class="tag tag-sky"&gt;Snacks · ~300–400 cal total&lt;/span&gt;</p>
-<p class="p1">    &lt;h3&gt;Strategic Snacking&lt;/h3&gt;</p>
-<p class="p1">    &lt;p&gt;&lt;strong&gt;Pre-run snack (if needed):&lt;/strong&gt; 2 rice cakes + honey + banana — 30–60 min before&lt;br&gt;&lt;br&gt;</p>
-<p class="p1">    &lt;strong&gt;Post-run (within 30 min):&lt;/strong&gt; Greek yogurt + berries + granola OR chocolate milk + protein shake&lt;br&gt;&lt;br&gt;</p>
-<p class="p1">    &lt;strong&gt;Evening:&lt;/strong&gt; Greek yogurt (200g) + seeds — slow protein feeds overnight muscle repair + nursing&lt;br&gt;&lt;br&gt;</p>
-<p class="p1">    &lt;em&gt;Post-run nutrition is your most important meal. Never skip it.&lt;/em&gt;&lt;/p&gt;</p>
-<p class="p1">  &lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;hr class="div"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="slabel"&gt;Race Week Fueling&lt;/div&gt;</p>
-<p class="p1">&lt;h2&gt;RACE NUTRITION PROTOCOL&lt;/h2&gt;</p>
-<p class="p1">&lt;div class="grid grid-3"&gt;</p>
-<p class="p1">  &lt;div class="card"&gt;&lt;span class="tag tag-gold"&gt;48hrs Before&lt;/span&gt;&lt;p style="font-size:14px"&gt;Carb-load: 8–10g/kg bodyweight. Simple carbs. Pasta, rice, bread, banana. Cut fibre and fat. Salt your food.&lt;/p&gt;&lt;/div&gt;</p>
-<p class="p1">  &lt;div class="card"&gt;&lt;span class="tag tag-gold"&gt;Race Morning&lt;/span&gt;&lt;p style="font-size:14px"&gt;Protein shake + 2 rice cakes + honey + banana. 90 min before gun. 500ml electrolytes. No new foods.&lt;/p&gt;&lt;/div&gt;</p>
-<p class="p1">  &lt;div class="card"&gt;&lt;span class="tag tag-gold"&gt;During Race&lt;/span&gt;&lt;p style="font-size:14px"&gt;Gel every 40 min from km 5. Target 45–60g carbs/hour. Sip water at every station.&lt;/p&gt;&lt;/div&gt;</p>
-<p class="p1">  &lt;div class="card"&gt;&lt;span class="tag tag-sage"&gt;Hydration&lt;/span&gt;&lt;p style="font-size:14px"&gt;4–5L daily on run days. Electrolytes (not just water) on all runs over 45 min. Breastfeeding raises sodium losses.&lt;/p&gt;&lt;/div&gt;</p>
-<p class="p1">  &lt;div class="card"&gt;&lt;span class="tag tag-rose"&gt;Post-Race&lt;/span&gt;&lt;p style="font-size:14px"&gt;Protein shake within 20 min. Full meal within 90 min. Nurse or pump — refuel milk supply. Legs up + ice 20 min.&lt;/p&gt;&lt;/div&gt;</p>
-<p class="p1">  &lt;div class="card"&gt;&lt;span class="tag tag-sky"&gt;Supplements&lt;/span&gt;&lt;p style="font-size:14px"&gt;Postnatal multi · Omega-3 DHA · Vit D3 · Magnesium glycinate · Tart cherry · Collagen + Vit C · Electrolytes daily&lt;/p&gt;&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p1">```</p>
-<p class="p2"><br></p>
-<p class="p1">  &lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- ═══════════════════════════════════════════════════════</p>
-<p class="p1">     PAGE: RACE CALENDAR</p>
-<p class="p1">═══════════════════════════════════════════════════════ --&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div id="page-races" class="page"&gt;</p>
-<p class="p1">  &lt;div class="hero" style="--accent-color:var(--cream)"&gt;</p>
-<p class="p1">    &lt;div class="eyebrow"&gt;2025–2026 Season&lt;/div&gt;</p>
-<p class="p1">    &lt;h1&gt;RACE CALENDAR&lt;/h1&gt;</p>
-<p class="p1">    &lt;p class="hero-sub"&gt;Seven races. One full marathon. Every start line earned.&lt;/p&gt;</p>
-<p class="p1">  &lt;/div&gt;</p>
-<p class="p1">  &lt;div class="wrap"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">```</p>
-<p class="p1">&lt;div class="stats"&gt;</p>
-<p class="p1">  &lt;div class="stat"&gt;&lt;div class="stat-n"&gt;7&lt;/div&gt;&lt;div class="stat-l"&gt;Total Races&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1">  &lt;div class="stat"&gt;&lt;div class="stat-n"&gt;6&lt;/div&gt;&lt;div class="stat-l"&gt;Half Marathons&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1">  &lt;div class="stat"&gt;&lt;div class="stat-n"&gt;1&lt;/div&gt;&lt;div class="stat-l"&gt;Full Marathon&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1">  &lt;div class="stat"&gt;&lt;div class="stat-n"&gt;&amp;lt;2:00&lt;/div&gt;&lt;div class="stat-l"&gt;Half Goal&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1">  &lt;div class="stat"&gt;&lt;div class="stat-n"&gt;&amp;lt;4:00&lt;/div&gt;&lt;div class="stat-l"&gt;Full Goal&lt;/div&gt;&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div id="raceCards"&gt;&lt;/div&gt;</p>
-<p class="p1">```</p>
-<p class="p2"><br></p>
-<p class="p1">  &lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- ═══════════════════════════════════════════════════════</p>
-<p class="p1">     PAGE: GROCERY LISTS</p>
-<p class="p1">═══════════════════════════════════════════════════════ --&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div id="page-grocery" class="page"&gt;</p>
-<p class="p1">  &lt;div class="hero" style="--accent-color:var(--sky)"&gt;</p>
-<p class="p1">    &lt;div class="eyebrow"&gt;Weekly Shopping · Phase-Based&lt;/div&gt;</p>
-<p class="p1">    &lt;h1&gt;GROCERY LISTS&lt;/h1&gt;</p>
-<p class="p1">    &lt;p class="hero-sub"&gt;Everything you need, organised by week phase&lt;/p&gt;</p>
-<p class="p1">  &lt;/div&gt;</p>
-<p class="p1">  &lt;div class="wrap"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">```</p>
-<p class="p1">&lt;div class="week-bar" id="grocWeekBar"&gt;&lt;/div&gt;</p>
-<p class="p1">&lt;div id="grocContent" style="margin-top:24px"&gt;&lt;/div&gt;</p>
-<p class="p1">```</p>
-<p class="p2"><br></p>
-<p class="p1">  &lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;!-- ════════════════════ JAVASCRIPT ════════════════════ --&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;script&gt;</p>
-<p class="p1">// ── PAGE NAVIGATION ──</p>
-<p class="p1">function go(id){</p>
-<p class="p1">  document.querySelectorAll('.page').forEach(p=&gt;p.classList.remove('active'));</p>
-<p class="p1">  document.querySelectorAll('.tab').forEach(t=&gt;t.classList.remove('active'));</p>
-<p class="p1">  document.getElementById('page-'+id).classList.add('active');</p>
-<p class="p1">  document.querySelector(`.tab[data-page="${id}"]`).classList.add('active');</p>
-<p class="p1">  window.scrollTo(0,0);</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">// ── EXERCISE ACCORDION ──</p>
-<p class="p1">function toggleEx(el){</p>
-<p class="p1">  const body = el.nextElementSibling;</p>
-<p class="p1">  const tog = el.querySelector('.ex-toggle');</p>
-<p class="p1">  body.classList.toggle('open');</p>
-<p class="p1">  tog.classList.toggle('open');</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">// ── STRENGTH SESSIONS ──</p>
-<p class="p1">const sessions = {</p>
-<p class="p1">  A: {</p>
-<p class="p1">    title:'Glutes &amp; Knee Armour',</p>
-<p class="p1">    exercises:[</p>
-<p class="p1">      {name:'Hip Thrust', sets:'4 × 12–15', focus:'rose',</p>
-<p class="p1">       how:'Shoulders on bench, barbell across hips, drive hips to ceiling. Squeeze glutes hard at top for 1 second.',</p>
-<p class="p1">       why:'#1 glute-builder. Protects knees by ensuring glutes fire before quads on every stride.',</p>
-<p class="p1">       cue:'Drive through your heels. Your ribcage stays DOWN.'},</p>
-<p class="p1">      {name:'Bulgarian Split Squat', sets:'3 × 10/side', focus:'rose',</p>
-<p class="p1">       how:'Rear foot elevated on bench. Drop back knee toward floor. Front shin stays vertical. 3 sec down, drive up.',</p>
-<p class="p1">       why:'Single-leg strength = injury prevention. Directly mimics running mechanics. Builds visible quad sweep.',</p>
-<p class="p1">       cue:'Keep your torso upright. If your front knee dives in — stop and reset.'},</p>
-<p class="p1">      {name:'Lateral Band Walk', sets:'3 × 20 steps/direction', focus:'sage',</p>
-<p class="p1">       how:'Mini band above knees. Slight squat position. Step sideways maintaining tension throughout.',</p>
-<p class="p1">       why:'Activates gluteus medius — the muscle that stops knee cave and IT band syndrome. Critical for you.',</p>
-<p class="p1">       cue:'Stay low. Don\'t let the band pull your knees in at any point.'},</p>
-<p class="p1">      {name:'VMO Squat (Heels Elevated)', sets:'3 × 15', focus:'rose',</p>
-<p class="p1">       how:'Heels on 1-inch plate or book. Squat deep, push knees out wide. Controls kneecap tracking.',</p>
-<p class="p1">       why:'Strengthens the inner quad (VMO) — the #1 muscle for kneecap tracking and runner\'s knee prevention.',</p>
-<p class="p1">       cue:'Knees stay in line with pinky toes throughout the movement.'},</p>
-<p class="p1">      {name:'Single-Leg Glute Bridge', sets:'3 × 15/side', focus:'rose',</p>
-<p class="p1">       how:'Lying on floor. One foot flat, other leg raised. Drive hips up, squeeze glute at top.',</p>
-<p class="p1">       why:'Isolates each glute independently — reveals and corrects asymmetries that cause injuries.',</p>
-<p class="p1">       cue:'Hip bones level. Don\'t let the resting side drop.'},</p>
-<p class="p1">      {name:'Core: Dead Bug', sets:'3 × 10/side', focus:'gold',</p>
-<p class="p1">       how:'Lying on back, arms up, knees at 90°. Lower opposite arm + leg while keeping low back FLAT.',</p>
-<p class="p1">       why:'Deep core stability = efficient running = less injury. Also: the abs that make you look incredible in race photos.',</p>
-<p class="p1">       cue:'If your lower back lifts off the floor — make the movement smaller. Quality over range.'},</p>
-<p class="p1">    ]</p>
-<p class="p1">  },</p>
-<p class="p1">  B: {</p>
-<p class="p1">    title:'Posterior Chain &amp; Hip Health',</p>
-<p class="p1">    exercises:[</p>
-<p class="p1">      {name:'Romanian Deadlift (Single-Leg)', sets:'3 × 10/side', focus:'rose',</p>
-<p class="p1">       how:'Stand on one leg, hinge forward with flat back, weight hangs straight down. Feel hamstring load fully.',</p>
-<p class="p1">       why:'Builds hamstrings and glutes while training single-leg balance — the exact pattern of every running stride.',</p>
-<p class="p1">       cue:'Your back stays FLAT the entire time. This is a hinge, not a squat.'},</p>
-<p class="p1">      {name:'Nordic Hamstring Curl', sets:'3 × 6 (slow!)', focus:'rose',</p>
-<p class="p1">       how:'Kneel, feet anchored (under couch/partner). Lower your body toward floor as slowly as possible (3–5 sec). Catch yourself, reset.',</p>
-<p class="p1">       why:'The most effective hamstring injury prevention exercise in existence. Eccentric loading prevents muscle tears.',</p>
-<p class="p1">       cue:'Go SLOW on the way down. Speed defeats the purpose. This will feel hard immediately.'},</p>
-<p class="p1">      {name:'Clamshell + Banded Hip Abduction', sets:'3 × 15/side', focus:'sage',</p>
-<p class="p1">       how:'Side lying, mini band above knees. Open top knee (clamshell). Then straighten leg and lift (abduction). These are separate exercises — do both.',</p>
-<p class="p1">       why:'Hip abductors prevent hip drop when running. Hip drop = knee injury. This protects your IT band, hips and knees simultaneously.',</p>
-<p class="p1">       cue:'Keep your pelvis completely still. Only the leg moves.'},</p>
-<p class="p1">      {name:'Sumo Deadlift or Trap Bar', sets:'4 × 6', focus:'rose',</p>
-<p class="p1">       how:'Wide stance, toes out. Push the floor away (don\'t think "pull"). Keep chest tall throughout.',</p>
-<p class="p1">       why:'The best total posterior chain builder. Hamstrings, glutes, back — all the muscles that give runners that athletic shape.',</p>
-<p class="p1">       cue:'Bar stays close to your body the entire lift. Breathe in at the top, brace, lift.'},</p>
-<p class="p1">      {name:'90/90 Hip Stretch (Active)', sets:'2 × 60s/side', focus:'sage',</p>
-<p class="p1">       how:'Sit with both legs at 90 degrees. Rotate toward front leg. Lean forward over it. Hold, breathe into the hip.',</p>
-<p class="p1">       why:'Hip flexor + external rotator mobility. Tight hips = knee compensation = injury. This directly prevents that chain reaction.',</p>
-<p class="p1">       cue:'Sit tall first, then lean. Don\'t let your back round.'},</p>
-<p class="p1">      {name:'Copenhagen Plank', sets:'3 × 20–30s/side', focus:'rose',</p>
-<p class="p1">       how:'Side plank. Top leg on bench (inner thigh facing down). Bottom leg can hang or rest. Hold position.',</p>
-<p class="p1">       why:'Trains hip adductors — the forgotten inner thigh muscles that stabilise your pelvis and give your legs shape.',</p>
-<p class="p1">       cue:'Hip stays HIGH. If it drops — you\'re not getting the benefit.'},</p>
-<p class="p1">    ]</p>
-<p class="p1">  },</p>
-<p class="p1">  C: {</p>
-<p class="p1">    title:'Ankles, Stability &amp; Upper Body',</p>
-<p class="p1">    exercises:[</p>
-<p class="p1">      {name:'Single-Leg Calf Raise (Eccentric)', sets:'3 × 15/side', focus:'rose',</p>
-<p class="p1">       how:'Stand on one foot (use wall for balance). Rise up on TWO feet. Lower on ONE foot — count 3 seconds down. This is the key: the slow lowering.',</p>
-<p class="p1">       why:'The #1 Achilles and plantar fascia injury prevention exercise. Eccentric calf loading at your mileage is absolutely mandatory.',</p>
-<p class="p1">       cue:'Control the entire way down. If it burns — that\'s correct.'},</p>
-<p class="p1">      {name:'Single-Leg Balance — Eyes Closed', sets:'3 × 30–45s/side', focus:'sage',</p>
-<p class="p1">       how:'Stand on one foot, slight knee bend. Close eyes. Focus on micro-adjustments in your ankle.',</p>
-<p class="p1">       why:'Proprioception training — your ankle\'s ability to react to uneven terrain (critical for your trail races). Prevents ankle sprains.',</p>
-<p class="p1">       cue:'Soft knee. Breathe. If you wobble a lot — that\'s your weak ankle. Train it more.'},</p>
-<p class="p1">      {name:'Banded Ankle Dorsiflexion', sets:'3 × 15/side', focus:'sage',</p>
-<p class="p1">       how:'Band around ankle, attached low behind you. Shift weight forward over toes, push knee past toes against band resistance.',</p>
-<p class="p1">       why:'Dorsiflexion restriction = ankle, knee, AND hip compensation. Fix the ankle and everything above it improves.',</p>
-<p class="p1">       cue:'Heel stays completely flat. The movement is forward, not up.'},</p>
-<p class="p1">      {name:'Step-Up with Knee Drive', sets:'3 × 10/side', focus:'rose',</p>
-<p class="p1">       how:'Step onto box with one foot. Drive the opposite knee up high as you stand. Lower with control. This is both a strength AND balance exercise.',</p>
-<p class="p1">       why:'Directly simulates uphill running. Builds the glute and hip flexor strength that protects your knees on trails.',</p>
-<p class="p1">       cue:'Drive the knee UP — this activates the hip flexor and conditions it against strain.'},</p>
-<p class="p1">      {name:'Bent-Over Row', sets:'3 × 12', focus:'gold',</p>
-<p class="p1">       how:'Hinge forward 45°, pull dumbbells/bar to lower ribs, squeeze shoulder blades together at top.',</p>
-<p class="p1">       why:'Strong back = efficient arm swing = faster running + the sculpted upper back that looks incredible.',</p>
-<p class="p1">       cue:'Elbows close to body. Your neck is long — look at the floor 1m in front of you.'},</p>
-<p class="p1">      {name:'Push-Up Variations', sets:'3 × 12', focus:'gold',</p>
-<p class="p1">       how:'Standard, or elevate feet for upper chest emphasis, or deficit push-ups for range. Choose a variation that\'s challenging for 12 reps.',</p>
-<p class="p1">       why:'Balanced upper body pushing strength. Strong chest and shoulders complete the athletic physique.',</p>
-<p class="p1">       cue:'Body is one rigid plank from head to heels. No sagging hips.'},</p>
-<p class="p1">      {name:'Core: Suitcase Carry', sets:'3 × 30s/side', focus:'gold',</p>
-<p class="p1">       how:'Hold a heavy dumbbell in ONE hand only. Walk slowly. Stay completely upright — don\'t lean toward the weight.',</p>
-<p class="p1">       why:'Anti-lateral-flexion core strength. Directly trains the obliques that give you a defined waist and stabilise your pelvis at every stride.',</p>
-<p class="p1">       cue:'Imagine a book on your head. Walk tall. The weight should feel like it\'s trying to pull you over — resist that.'},</p>
-<p class="p1">    ]</p>
-<p class="p1">  }</p>
-<p class="p1">};</p>
-<p class="p2"><br></p>
-<p class="p1">function buildSessions(){</p>
-<p class="p1">  ['A','B','C'].forEach(s=&gt;{</p>
-<p class="p1">    const container = document.getElementById('session'+s);</p>
-<p class="p1">    if(!container) return;</p>
-<p class="p1">    sessions[s].exercises.forEach(ex=&gt;{</p>
-<p class="p1">      const focusColor = ex.focus==='rose'?'var(--rose)':ex.focus==='sage'?'var(--sage)':'var(--gold)';</p>
-<p class="p1">      const setsClass = ex.focus==='rose'?'rose-sets':ex.focus==='sage'?'sage-sets':'';</p>
-<p class="p1">      container.innerHTML += `</p>
-<p class="p1">        &lt;div class="ex-card"&gt;</p>
-<p class="p1">          &lt;div class="ex-header" onclick="toggleEx(this)"&gt;</p>
-<p class="p1">            &lt;span class="ex-name"&gt;${ex.name}&lt;/span&gt;</p>
-<p class="p1">            &lt;div style="display:flex;align-items:center;gap:10px"&gt;</p>
-<p class="p1">              &lt;span class="ex-sets ${setsClass}"&gt;${ex.sets}&lt;/span&gt;</p>
-<p class="p1">              &lt;span class="ex-toggle"&gt;+&lt;/span&gt;</p>
-<p class="p1">            &lt;/div&gt;</p>
-<p class="p1">          &lt;/div&gt;</p>
-<p class="p1">          &lt;div class="ex-body"&gt;</p>
-<p class="p1">            &lt;div class="ex-detail"&gt;</p>
-<p class="p1">              &lt;strong&gt;How:&lt;/strong&gt; ${ex.how}</p>
-<p class="p1">              &lt;span class="why"&gt;💚 Why this for you: ${ex.why}&lt;/span&gt;</p>
-<p class="p1">              &lt;span class="cue"&gt;⚡ Coaching cue: ${ex.cue}&lt;/span&gt;</p>
-<p class="p1">            &lt;/div&gt;</p>
-<p class="p1">          &lt;/div&gt;</p>
-<p class="p1">        &lt;/div&gt;`;</p>
-<p class="p1">    });</p>
-<p class="p1">  });</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">// ── WEEK DATA ──</p>
-<p class="p1">const phases = [</p>
-<p class="p1">  { label:'Phase 1', weeks:[</p>
-<p class="p1">    {id:'w1', label:'Week 1', phase:'Base Building', subRace:null},</p>
-<p class="p1">    {id:'w2', label:'Week 2', phase:'Base Building', subRace:null},</p>
-<p class="p1">    {id:'w3', label:'Week 3', phase:'Base Building', subRace:null},</p>
-<p class="p1">    {id:'w4', label:'Week 4', phase:'Easy Recovery Week', subRace:null},</p>
-<p class="p1">  ]},</p>
-<p class="p1">  { label:'Pre-Race 1', weeks:[</p>
-<p class="p1">    {id:'w5', label:'Week 5', phase:'Sharpening', subRace:null},</p>
-<p class="p1">    {id:'w6', label:'Week 6 ★', phase:'RACE WEEK — Saskatoon May 31', subRace:'saskatoon', isRace:true},</p>
-<p class="p1">  ]},</p>
-<p class="p1">  { label:'Phase 2', weeks:[</p>
-<p class="p1">    {id:'w7', label:'Week 7', phase:'Post-Race Recovery', subRace:null},</p>
-<p class="p1">    {id:'w8', label:'Week 8', phase:'Trail Build', subRace:null},</p>
-<p class="p1">    {id:'w9', label:'Week 9', phase:'Trail Build', subRace:null},</p>
-<p class="p1">    {id:'w10', label:'Week 10 ★', phase:'RACE WEEK — Sinister 7 Jul 11', subRace:'sinister', isRace:true},</p>
-<p class="p1">  ]},</p>
-<p class="p1">  { label:'Phase 3', weeks:[</p>
-<p class="p1">    {id:'w11', label:'Week 11', phase:'Recovery + Maintain', subRace:null},</p>
-<p class="p1">    {id:'w12', label:'Week 12', phase:'Peak Race Block', subRace:null},</p>
-<p class="p1">    {id:'w13', label:'Week 13 ★', phase:'RACE WEEK — Death Race Aug 1', subRace:'death', isRace:true},</p>
-<p class="p1">    {id:'w14', label:'Week 14', phase:'Recovery Priority', subRace:null},</p>
-<p class="p1">    {id:'w15', label:'Week 15 ★', phase:'RACE WEEK — Black Spur Aug 22', subRace:'spur', isRace:true},</p>
-<p class="p1">  ]},</p>
-<p class="p1">  { label:'Phase 4', weeks:[</p>
-<p class="p1">    {id:'w16', label:'Week 16', phase:'Power Build', subRace:null},</p>
-<p class="p1">    {id:'w17', label:'Week 17', phase:'Sharpening', subRace:null},</p>
-<p class="p1">    {id:'w18', label:'Week 18 ★', phase:'RACE WEEK — Fort McMurray Sep 20', subRace:'fortmac', isRace:true},</p>
-<p class="p1">    {id:'w19', label:'Week 19', phase:'Recovery', subRace:null},</p>
-<p class="p1">    {id:'w20', label:'Week 20 ★', phase:'RACE WEEK — Grizzly Ultra Oct 11', subRace:'grizzly', isRace:true},</p>
-<p class="p1">  ]},</p>
-<p class="p1">  { label:'Off Season', weeks:[</p>
-<p class="p1">    {id:'w21', label:'Off-Season', phase:'Recomp Phase — Nov through Jan', subRace:null},</p>
-<p class="p1">  ]},</p>
-<p class="p1">  { label:'Big Island', weeks:[</p>
-<p class="p1">    {id:'w22', label:'Marathon Build', phase:'Feb–Mar 7', subRace:null},</p>
-<p class="p1">    {id:'w23', label:'Race Week ★', phase:'RACE WEEK — Big Island Mar 14', subRace:'hawaii', isRace:true},</p>
-<p class="p1">  ]},</p>
-<p class="p1">];</p>
-<p class="p2"><br></p>
-<p class="p1">const allWeeks = phases.flatMap(p=&gt;p.weeks);</p>
-<p class="p1">let currentWeek = 'w1';</p>
-<p class="p2"><br></p>
-<p class="p1">function buildWeekBar(){</p>
-<p class="p1">  const bar = document.getElementById('weekBar');</p>
-<p class="p1">  allWeeks.forEach(w=&gt;{</p>
-<p class="p1">    const btn = document.createElement('button');</p>
-<p class="p1">    btn.className = 'wbtn' + (w.isRace?' race-wk':'') + (w.id===currentWeek?' active':'');</p>
-<p class="p1">    btn.textContent = w.label;</p>
-<p class="p1">    btn.onclick = ()=&gt;selectWeek(w.id);</p>
-<p class="p1">    bar.appendChild(btn);</p>
-<p class="p1">  });</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">function selectWeek(id){</p>
-<p class="p1">  currentWeek = id;</p>
-<p class="p1">  document.querySelectorAll('#weekBar .wbtn').forEach((b,i)=&gt;{</p>
-<p class="p1">    b.classList.toggle('active', allWeeks[i].id===id);</p>
-<p class="p1">  });</p>
-<p class="p1">  renderDays(id);</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">// ── DAY DATA per week type ──</p>
-<p class="p1">function getDays(weekId){</p>
-<p class="p1">  const w = allWeeks.find(x=&gt;x.id===weekId);</p>
-<p class="p1">  const isRaceWeek = w.isRace;</p>
-<p class="p1">  const race = w.subRace;</p>
-<p class="p2"><br></p>
-<p class="p1">  if(race==='saskatoon') return raceWeekDays('Saskatoon Half Marathon','May 31','2400-2600','Sub 2:00:00','Road race. Prove the fitness. Gel at km 7, 12, 17.','Carb-load 48h out. Simple carbs — pasta/rice. Cut fibre. Salt everything.','Race Morning: Protein shake + 2 rice cakes + honey. 90 min before start. 500ml electrolytes.', 'Saturday');</p>
-<p class="p1">  if(race==='sinister') return raceWeekDays('Sinister 7 Half','July 11','2500-2700','Effort-based · Trail','Technical trail. Eat by effort not pace. Real food works here.','Extra carbs +20% vs road protocol. Sodium-load: salt every meal.','Race Morning: Oats + banana + almond butter. 120 min before. Carry real food (dates, banana).','Friday');</p>
-<p class="p1">  if(race==='death') return raceWeekDays('Death Race Half','Aug 1','2700-3000','Survive &amp; Thrive','Most brutal race. Eat every 30 min. Never stop fueling.','72-hr carb load. +300 cal above normal. Electrolytes with every meal.','Race Morning: Large oats + 2 bananas + salt. Pack boiled potatoes + rice balls + dates.','Friday');</p>
-<p class="p1">  if(race==='spur') return raceWeekDays('Black Spur Half','Aug 22','2500-2700','Recovery Race','3 weeks post Death Race. Trust your body. You\'re more recovered than you feel.','Standard carb-load from Aug 20. Keep it simple — you know what works.','Race Morning: Proven pre-race meal. Nothing new. Execute with confidence.','Friday');</p>
-<p class="p1">  if(race==='fortmac') return raceWeekDays('Fort McMurray Half','Sep 20','2400-2600','Peak Performance','Your fitness peaks here. Negative split if possible. PR attempt.','Perfect carb-load — you\'ve done this 4 times. Trust the process.','Race Morning: Your proven meal. Aggressive early pace is earned. Gel at km 7, 12.','Saturday');</p>
-<p class="p1">  if(race==='grizzly') return raceWeekDays('Grizzly Ultra Half','Oct 11','2600-2800','Cold Weather Finale','Cold adds 10-15% calorie burn. Hot food at finish. Season done — celebrate hard.','Extra carbs + fat pre-race for cold. Hot oatmeal + almond butter morning.','Race Morning: Hot oatmeal + almond butter. Keep gels close to body (stiff in cold). Hot broth at aid stations.','Saturday');</p>
-<p class="p1">  if(race==='hawaii') return raceWeekDays('Big Island Full Marathon','Mar 14','2700-3000','Sub-4:00 · Heat Strategy','Your A-race. Heat demands conservative early pacing. Walk aid stations. Ice at every stop.','3-day carb-load. 10g carbs/kg. Pre-hydrate with extra sodium the week before.','Race Morning: Early start (~5am). Shake + rice cakes + banana 90 min before. Gel every 30-40 min from km 10.','Friday');</p>
-<p class="p2"><br></p>
-<p class="p1">  // Normal training weeks</p>
-<p class="p1">  const phase = w.phase;</p>
-<p class="p1">  const isRecovery = phase.includes('Recovery') || phase.includes('recovery');</p>
-<p class="p1">  const isPeak = phase.includes('Peak') || phase.includes('Sharpening');</p>
-<p class="p1">  const isRecomp = phase.includes('Recomp');</p>
-<p class="p2"><br></p>
-<p class="p1">  return [</p>
-<p class="p1">    {day:'Monday', type:'both',</p>
-<p class="p1">     run: isRecovery ? 'Easy 6km — truly easy. 7:30+/km.' : 'Easy Run 7–8km · 7:00–8:00/km pace · Aerobic base',</p>
-<p class="p1">     strength: 'Session A — Glutes &amp; Knee Armour · 45 min',</p>
-<p class="p1">     cals: isRecovery ? '2200–2400' : '2400–2600',</p>
-<p class="p1">     preRun: 'Protein shake + 1 banana (30 min before)',</p>
-<p class="p1">     postRun: 'Lunch plate immediately after run — eggs + cottage cheese + rice cakes',</p>
-<p class="p1">     meals: normalMeals('Monday', isRecovery)</p>
-<p class="p1">    },</p>
-<p class="p1">    {day:'Tuesday', type:'run',</p>
-<p class="p1">     run: isRecovery ? 'Easy 6km or rest. Listen to your body.' : isPeak ? 'Interval Session 10–12km — 6×1km at 5:30/km · 2min rest between' : 'Tempo Run 10km — 4km warmup · 4km at 5:50–6:00/km · 2km cooldown',</p>
-<p class="p1">     strength: null,</p>
-<p class="p1">     cals: isRecovery ? '2200–2300' : '2600–2800',</p>
-<p class="p1">     preRun: 'Rice cakes (3) + honey + banana — 45 min before',</p>
-<p class="p1">     postRun: 'Greek yogurt + berries + granola within 30 min',</p>
-<p class="p1">     meals: normalMeals('Tuesday', isRecovery)</p>
-<p class="p1">    },</p>
-<p class="p1">    {day:'Wednesday', type:'strength',</p>
-<p class="p1">     run: 'Optional easy 5km or rest',</p>
-<p class="p1">     strength: 'Session B — Posterior Chain &amp; Hip Health · 45 min',</p>
-<p class="p1">     cals: isRecovery ? '2100–2300' : '2300–2500',</p>
-<p class="p1">     preRun: null,</p>
-<p class="p1">     postRun: null,</p>
-<p class="p1">     meals: normalMeals('Wednesday', true)</p>
-<p class="p1">    },</p>
-<p class="p1">    {day:'Thursday', type:'run',</p>
-<p class="p1">     run: isRecovery ? 'Easy walk 30 min or off' : 'Easy-Moderate Run 10–12km · 6:50–7:30/km',</p>
-<p class="p1">     strength: null,</p>
-<p class="p1">     cals: isRecovery ? '2200–2400' : '2400–2600',</p>
-<p class="p1">     preRun: 'Protein shake (pre-made) + banana if running 10km+',</p>
-<p class="p1">     postRun: 'Lunch plate within 45 min',</p>
-<p class="p1">     meals: normalMeals('Thursday', isRecovery)</p>
-<p class="p1">    },</p>
-<p class="p1">    {day:'Friday', type:'strength',</p>
-<p class="p1">     run: 'Strides: 6×100m fast after warmup — rest 60s between. Total ~20 min.',</p>
-<p class="p1">     strength: 'Session C — Ankles, Stability &amp; Upper Body · 45 min',</p>
-<p class="p1">     cals: '2200–2400',</p>
-<p class="p1">     preRun: null,</p>
-<p class="p1">     postRun: null,</p>
-<p class="p1">     meals: normalMeals('Friday', false)</p>
-<p class="p1">    },</p>
-<p class="p1">    {day:'Saturday', type:'run',</p>
-<p class="p1">     run: isRecovery ? 'Long Run 12–14km — easy. 7:00–8:00/km. No pressure.' : isPeak ? 'Long Run 20–24km · 7:00–7:30/km · Practice race nutrition every 40 min' : 'Long Run 16–20km · 7:00–7:30/km · Fuel every 40 min from km 8',</p>
-<p class="p1">     strength: null,</p>
-<p class="p1">     cals: isRecovery ? '2500–2700' : '2700–3000',</p>
-<p class="p1">     preRun: 'Oatmeal (½ cup dry) + banana + honey + salt — 90 min before',</p>
-<p class="p1">     postRun: 'CRITICAL: Protein shake immediately. Full meal (dinner-size) within 90 min. Nurse/pump after refueling.',</p>
-<p class="p1">     meals: longRunMeals()</p>
-<p class="p1">    },</p>
-<p class="p1">    {day:'Sunday', type:'rest',</p>
-<p class="p1">     run: 'Rest or 20–30 min gentle walk',</p>
-<p class="p1">     strength: null,</p>
-<p class="p1">     cals: '2100–2300',</p>
-<p class="p1">     preRun: null,</p>
-<p class="p1">     postRun: null,</p>
-<p class="p1">     meals: normalMeals('Sunday', true)</p>
-<p class="p1">    },</p>
-<p class="p1">  ];</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">function normalMeals(day, isEasy){</p>
-<p class="p1">  return [</p>
-<p class="p1">    {time:'Breakfast', name:'Protein Berry Shake', detail:'Kefir + berries + hemp + flax + pumpkin seeds + brewer\'s yeast · ~400 cal'},</p>
-<p class="p1">    {time:'Lunch', name:'Simple Plate', detail:'3 eggs + ½ cup cottage cheese + 3–4 rice cakes + 1–2 bananas · ~450 cal'},</p>
-<p class="p1">    {time:'Snack', name:'Afternoon Fuel', detail:'Greek yogurt + handful walnuts OR apple + almond butter · ~250 cal'},</p>
-<p class="p1">    {time:'Dinner', name:'Protein + Starch + Veg', detail:'180g protein (salmon/chicken/beef) + 1 cup rice or potato + 2 cups veg · ~600 cal'},</p>
-<p class="p1">    {time:'Evening', name:'Recovery Snack', detail:'Greek yogurt (200g) + seeds — slow protein for overnight muscle repair + nursing · ~200 cal'},</p>
-<p class="p1">  ];</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">function longRunMeals(){</p>
-<p class="p1">  return [</p>
-<p class="p1">    {time:'Pre-Run', name:'Long Run Fuel', detail:'Oatmeal ½ cup dry + banana + honey + pinch salt — 90 min before · ~350 cal'},</p>
-<p class="p1">    {time:'During', name:'Race Nutrition Practice', detail:'Gel or chew every 40 min from km 8 · 500–750ml electrolytes per hour'},</p>
-<p class="p1">    {time:'Post-Run', name:'Recovery Window ← Critical', detail:'Protein shake + chocolate milk OR Greek yogurt + granola — within 30 min · ~400 cal'},</p>
-<p class="p1">    {time:'Lunch', name:'Full Recovery Meal', detail:'3 eggs + cottage cheese + rice cakes + banana + extra serving · ~550 cal'},</p>
-<p class="p1">    {time:'Dinner', name:'High-Carb Recovery', detail:'200g salmon or beef + 1.5 cups rice + roasted veg + olive oil · ~650 cal'},</p>
-<p class="p1">    {time:'Evening', name:'Overnight Repair', detail:'Greek yogurt + flaxseed + berries · ~220 cal · Nurse before bed'},</p>
-<p class="p1">  ];</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">function raceWeekDays(raceName, raceDate, cals, goal, raceNote, carbLoad, raceAm, raceDay){</p>
-<p class="p1">  const days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];</p>
-<p class="p1">  const raceDayIndex = days.indexOf(raceDay);</p>
-<p class="p1">  return days.map((d,i)=&gt;{</p>
-<p class="p1">    const daysOut = raceDayIndex - i;</p>
-<p class="p1">    const isRaceDay = d === raceDay;</p>
-<p class="p1">    const isTaper = daysOut &gt; 0 &amp;&amp; daysOut &lt;= 3;</p>
-<p class="p1">    return {</p>
-<p class="p1">      day: d + (isRaceDay ? ` ★ ${raceName}` : ''),</p>
-<p class="p1">      type: isRaceDay ? 'race' : daysOut &gt; 3 ? 'run' : 'rest',</p>
-<p class="p1">      run: isRaceDay ? `🏁 ${raceName} · ${raceDate} · Goal: ${goal}` :</p>
-<p class="p1">           daysOut === 1 ? 'Easy 10–15 min shake-out run + 4 strides. Stay loose.' :</p>
-<p class="p1">           daysOut === 2 ? 'Rest or 20-min walk. No running.' :</p>
-<p class="p1">           daysOut === 3 ? 'Easy 5–6km. Final easy session.' :</p>
-<p class="p1">           'Easy run or rest',</p>
-<p class="p1">      strength: isRaceDay ? null : daysOut &gt; 3 ? 'Short Session A — 30 min, light weight, just activation' : null,</p>
-<p class="p1">      cals: isRaceDay ? 'Fuel hard — race day, no restrictions' : isTaper ? cals : '2400–2600',</p>
-<p class="p1">      preRun: isRaceDay ? raceAm : null,</p>
-<p class="p1">      postRun: isRaceDay ? 'Protein shake within 20 min. Full meal within 90 min. Ice legs. Nurse/pump.' : null,</p>
-<p class="p1">      meals: isRaceDay ? [</p>
-<p class="p1">        {time:'Pre-Race', name:'Race Morning Protocol', detail: raceAm},</p>
-<p class="p1">        {time:'During', name:'Race Fueling', detail:'Gel every 40 min. ' + raceNote},</p>
-<p class="p1">        {time:'Post-Race', name:'Recovery Priority', detail:'Protein shake immediately. Full meal within 90 min. Nurse/pump. Ice + legs up.'},</p>
-<p class="p1">        {time:'Evening', name:'Celebration Meal', detail:'Whatever you want. High-carb, high-protein. You earned this.'},</p>
-<p class="p1">      ] :</p>
-<p class="p1">      isTaper ? [</p>
-<p class="p1">        {time:'Note', name:'Carb-Load Protocol', detail: carbLoad},</p>
-<p class="p1">        {time:'Breakfast', name:'Protein Berry Shake', detail:'Keep your normal shake + add extra banana'},</p>
-<p class="p1">        {time:'Lunch', name:'Higher Carb Lunch', detail:'Eggs + cottage cheese + 5–6 rice cakes + 2 bananas'},</p>
-<p class="p1">        {time:'Dinner', name:'Carb-Load Dinner', detail:'Pasta or large portion rice + lean protein + minimal fat/fibre'},</p>
-<p class="p1">        {time:'Evening', name:'Light Snack', detail:'Greek yogurt + honey. Drink 500ml electrolytes before bed.'},</p>
-<p class="p1">      ] : normalMeals(d, false),</p>
-<p class="p1">    };</p>
-<p class="p1">  });</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">function renderDays(weekId){</p>
-<p class="p1">  const days = getDays(weekId);</p>
-<p class="p1">  const grid = document.getElementById('dayGrid');</p>
-<p class="p1">  grid.innerHTML = '';</p>
-<p class="p1">  const w = allWeeks.find(x=&gt;x.id===weekId);</p>
-<p class="p1">  </p>
-<p class="p1">  // Phase banner</p>
-<p class="p1">  const banner = document.createElement('div');</p>
-<p class="p1">  banner.style.cssText = 'grid-column:1/-1; background:var(--panel); border:1px solid var(--line); border-left:3px solid var(--gold); padding:12px 18px; border-radius:2px; font-size:14px;';</p>
-<p class="p1">  banner.innerHTML = `&lt;span style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-right:10px;"&gt;${w.label}&lt;/span&gt; ${w.phase}`;</p>
-<p class="p1">  grid.appendChild(banner);</p>
-<p class="p2"><br></p>
-<p class="p1">  days.forEach(d=&gt;{</p>
-<p class="p1">    const card = document.createElement('div');</p>
-<p class="p1">    card.className = 'day-card';</p>
-<p class="p2"><br></p>
-<p class="p1">    const typeTag = d.type==='race' ? '&lt;span class="tag tag-cream"&gt;RACE DAY&lt;/span&gt;' :</p>
-<p class="p1">                    d.type==='run' ? '&lt;span class="tag tag-sage"&gt;Run&lt;/span&gt;' :</p>
-<p class="p1">                    d.type==='strength' ? '&lt;span class="tag tag-rose"&gt;Strength&lt;/span&gt;' :</p>
-<p class="p1">                    d.type==='both' ? '&lt;span class="tag tag-gold"&gt;Run + Strength&lt;/span&gt;' :</p>
-<p class="p1">                    '&lt;span class="tag" style="color:var(--dim);background:rgba(255,255,255,.04);border:1px solid var(--line)"&gt;Rest&lt;/span&gt;';</p>
-<p class="p2"><br></p>
-<p class="p1">    let html = `</p>
-<p class="p1">      &lt;div class="day-head"&gt;</p>
-<p class="p1">        &lt;span class="day-name"&gt;${d.day}&lt;/span&gt;</p>
-<p class="p1">        ${typeTag}</p>
-<p class="p1">      &lt;/div&gt;</p>
-<p class="p1">      &lt;div class="day-body"&gt;</p>
-<p class="p1">        &lt;div class="cal-pill"&gt;~ ${d.cals} cal&lt;/div&gt;`;</p>
-<p class="p2"><br></p>
-<p class="p1">    if(d.run){</p>
-<p class="p1">      html += `&lt;div class="block-title run-t"&gt;Running&lt;/div&gt;</p>
-<p class="p1">               &lt;div class="block-content" style="font-size:14px;margin-bottom:10px"&gt;${d.run}&lt;/div&gt;`;</p>
-<p class="p1">    }</p>
-<p class="p1">    if(d.strength){</p>
-<p class="p1">      html += `&lt;div class="block-title str-t"&gt;Strength&lt;/div&gt;</p>
-<p class="p1">               &lt;div class="block-content" style="font-size:14px;margin-bottom:10px"&gt;${d.strength}&lt;/div&gt;`;</p>
-<p class="p1">    }</p>
-<p class="p1">    if(d.preRun || d.postRun){</p>
-<p class="p1">      html += `&lt;div class="block-title nut-t"&gt;Peri-Run Nutrition&lt;/div&gt;`;</p>
-<p class="p1">      if(d.preRun) html += `&lt;div class="meal-row"&gt;&lt;span class="meal-time"&gt;Pre-Run&lt;/span&gt;&lt;span class="meal-text" style="font-size:13px"&gt;${d.preRun}&lt;/span&gt;&lt;/div&gt;`;</p>
-<p class="p1">      if(d.postRun) html += `&lt;div class="meal-row"&gt;&lt;span class="meal-time"&gt;Post-Run&lt;/span&gt;&lt;span class="meal-text" style="font-size:13px;color:var(--gold)"&gt;${d.postRun}&lt;/span&gt;&lt;/div&gt;`;</p>
-<p class="p1">    }</p>
-<p class="p2"><br></p>
-<p class="p1">    if(d.meals &amp;&amp; d.meals.length){</p>
-<p class="p1">      html += `&lt;div class="block-title nut-t"&gt;Meals&lt;/div&gt;`;</p>
-<p class="p1">      d.meals.forEach(m=&gt;{</p>
-<p class="p1">        html += `&lt;div class="meal-row"&gt;&lt;span class="meal-time"&gt;${m.time}&lt;/span&gt;&lt;div class="meal-text"&gt;&lt;strong&gt;${m.name}&lt;/strong&gt;&lt;br&gt;${m.detail}&lt;/div&gt;&lt;/div&gt;`;</p>
-<p class="p1">      });</p>
-<p class="p1">    }</p>
-<p class="p2"><br></p>
-<p class="p1">    html += `&lt;/div&gt;`;</p>
-<p class="p1">    card.innerHTML = html;</p>
-<p class="p1">    grid.appendChild(card);</p>
-<p class="p1">  });</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">// ── RACE CARDS ──</p>
-<p class="p1">const races = [</p>
-<p class="p1">  {mo:'May', dn:'31', yr:'2025', name:'Saskatoon Half Marathon', tag:'Road · Sub-2:00:00',</p>
-<p class="p1">   about:'Your first benchmark. Road race, manageable. Prove the sub-2 is already yours.',</p>
-<p class="p1">   protocols:[</p>
-<p class="p1">    {t:'48hrs Before', c:'Carb-load: 8–10g carbs/kg. Pasta, rice, banana. Cut fibre and fat. Salt your food liberally.'},</p>
-<p class="p1">    {t:'Race Morning', c:'Protein shake + 2 rice cakes + honey. 90 min before. 500ml electrolytes. Nothing new.'},</p>
-<p class="p1">    {t:'During Race', c:'Gel at km 7, 12, 17. Sip water every station. Target 6:40–6:50/km. Even splits.'},</p>
-<p class="p1">    {t:'Post-Race', c:'Protein shake within 20 min. Full meal within 90 min. Nurse/pump. Ice legs 20 min.'},</p>
-<p class="p1">  ]},</p>
-<p class="p1">  {mo:'Jul', dn:'11', yr:'2025', name:'Sinister 7 Half', tag:'Technical Trail · Elevation',</p>
-<p class="p1">   about:'Elevation changes = 10–15% higher calorie burn. Run by effort not pace. Real food works great here.',</p>
-<p class="p1">   protocols:[</p>
-<p class="p1">    {t:'48hrs Before', c:'+20% carbs vs road protocol. Sodium-load: salt every meal. Extra electrolyte drinks.'},</p>
-<p class="p1">    {t:'Race Morning', c:'Oats + banana + almond butter. 120 min before. Pack real food: dates, banana pieces.'},</p>
-<p class="p1">    {t:'During Race', c:'Mix gels + real food. 60g carbs/hour. Salt tabs every 45 min if hot. Never skip an aid station.'},</p>
-<p class="p1">    {t:'Post-Race', c:'Anti-inflammatory dinner: salmon + sweet potato + greens. Tart cherry supplement.'},</p>
-<p class="p1">  ]},</p>
-<p class="p1">  {mo:'Aug', dn:'01', yr:'2025', name:'Death Race Half', tag:'Extreme Trail · Peak Demand',</p>
-<p class="p1">   about:'Most demanding race of your season. Calorie needs are extreme. Eat before you\'re hungry.',</p>
-<p class="p1">   protocols:[</p>
-<p class="p1">    {t:'72hrs Before', c:'Full 3-day carb-load. +300 cal above normal daily. Sodium-load: electrolytes every meal.'},</p>
-<p class="p1">    {t:'Race Morning', c:'Large oats + 2 bananas + honey + salt. Pack boiled potatoes, rice balls, dates as real food.'},</p>
-<p class="p1">    {t:'During Race', c:'Eat every 30 min without fail. If nauseous: saltines + broth. Keep eating regardless.'},</p>
-<p class="p1">    {t:'Recovery', c:'5 days no running. High-protein, high-carb, anti-inflammatory. Sleep is the training now.'},</p>
-<p class="p1">  ]},</p>
-<p class="p1">  {mo:'Aug', dn:'22', yr:'2025', name:'Black Spur Half', tag:'Trail · 21 Days Post Death Race',</p>
-<p class="p1">   about:'Recovery nutrition IS your training between these two races. Arrive fueled and recovered.',</p>
-<p class="p1">   protocols:[</p>
-<p class="p1">    {t:'Aug 1–15', c:'160g+ protein daily. Tart cherry, omega-3. No calorie deficit. Sleep every chance you get.'},</p>
-<p class="p1">    {t:'Race Week', c:'Standard carb-load from Aug 20. Keep it simple — you know what works for your body now.'},</p>
-<p class="p1">    {t:'During Race', c:'Trust your fitness. Same gel protocol. You are more recovered than you feel.'},</p>
-<p class="p1">    {t:'Post-Race', c:'Fuel hard through September. Fort Mac is your peak performance target.'},</p>
-<p class="p1">  ]},</p>
-<p class="p1">  {mo:'Sep', dn:'20', yr:'2025', name:'Fort McMurray Half', tag:'Road · Season Performance Peak',</p>
-<p class="p1">   about:'Your fitness peaks here. Full season of racing has built your aerobic engine. PR attempt.',</p>
-<p class="p1">   protocols:[</p>
-<p class="p1">    {t:'48hrs Before', c:'Your 5th carb-load — you\'ve mastered this. Perfect execution. Trust your body.'},</p>
-<p class="p1">    {t:'Race Morning', c:'Your proven meal. Nothing new. You\'ve done this. Execute with confidence.'},</p>
-<p class="p1">    {t:'During Race', c:'Aggressive early pace is earned here. Gel at km 7, 12. Negative split if possible.'},</p>
-<p class="p1">    {t:'Post-Race', c:'Begin Grizzly taper. Cold-weather nutrition adjustments start. Extra carbs + fat.'},</p>
-<p class="p1">  ]},</p>
-<p class="p1">  {mo:'Oct', dn:'11', yr:'2025', name:'Grizzly Ultra Half', tag:'Trail · Cold · Season Finale',</p>
-<p class="p1">   about:'Cold conditions add 10–15% calorie burn. Trail format. Strong finish to an extraordinary season.',</p>
-<p class="p1">   protocols:[</p>
-<p class="p1">    {t:'Cold Prep', c:'Extra carbs + fat pre-race. Hot oatmeal + almond butter morning. Warm clothing layers.'},</p>
-<p class="p1">    {t:'Race Morning', c:'Hot oatmeal + almond butter. Keep gels inside clothing (stiff in cold). Hot broth at aid stations.'},</p>
-<p class="p1">    {t:'During Race', c:'Drink even if not thirsty — cold suppresses thirst. Warm gloves until fully warmed up.'},</p>
-<p class="p1">    {t:'Off-Season', c:'Oct 12–Jan: recomp phase. Slight deficit (–250 cal), heavy strength. Build for Big Island.'},</p>
-<p class="p1">  ]},</p>
-<p class="p1">  {mo:'Mar', dn:'14', yr:'2026', name:'Big Island Hawaii Full Marathon', tag:'Road · Full · Heat Strategy',</p>
-<p class="p1">   about:'Your A-race. Heat and humidity demand early conservative pacing and aggressive hydration.',</p>
-<p class="p1">   protocols:[</p>
-<p class="p1">    {t:'Build Phase', c:'Jan–Feb: Performance fueling, no deficit. 3+ hour long runs. Practice heat runs if possible.'},</p>
-<p class="p1">    {t:'72hrs Before', c:'Full 3-day carb-load. 10g carbs/kg. Familiar foods only. Pre-hydrate with extra sodium.'},</p>
-<p class="p1">    {t:'Race Morning', c:'Early start ~5am. Shake + rice cakes + banana 90 min before. Electrolytes. Ice ready.'},</p>
-<p class="p1">    {t:'During Race', c:'Gel every 30–40 min from km 10. 750ml+/hour. Salt tabs every 45 min. Walk aid stations.'},</p>
-<p class="p1">    {t:'Heat Strategy', c:'Ice in hat/sports bra at aid stations. Pour water on wrists and neck. Accept slower early pace.'},</p>
-<p class="p1">    {t:'Finish Line', c:'You\'ve earned everything. 2 weeks complete rest. Refeed. Celebrate. You did it.'},</p>
-<p class="p1">  ]},</p>
-<p class="p1">];</p>
-<p class="p2"><br></p>
-<p class="p1">function buildRaceCards(){</p>
-<p class="p1">  const cont = document.getElementById('raceCards');</p>
-<p class="p1">  races.forEach(r=&gt;{</p>
-<p class="p1">    const protos = r.protocols.map(p=&gt;`&lt;div class="proto"&gt;&lt;div class="proto-t"&gt;${p.t}&lt;/div&gt;&lt;p&gt;${p.c}&lt;/p&gt;&lt;/div&gt;`).join('');</p>
-<p class="p1">    cont.innerHTML += `</p>
-<p class="p1">      &lt;div class="race-card"&gt;</p>
-<p class="p1">        &lt;div class="race-dt"&gt;</p>
-<p class="p1">          &lt;div class="r-mo"&gt;${r.mo}&lt;/div&gt;</p>
-<p class="p1">          &lt;div class="r-dn"&gt;${r.dn}&lt;/div&gt;</p>
-<p class="p1">          &lt;div class="r-yr"&gt;${r.yr}&lt;/div&gt;</p>
-<p class="p1">        &lt;/div&gt;</p>
-<p class="p1">        &lt;div class="race-info"&gt;</p>
-<p class="p1">          &lt;div class="race-title"&gt;${r.name}&lt;/div&gt;</p>
-<p class="p1">          &lt;span class="tag tag-gold"&gt;${r.tag}&lt;/span&gt;</p>
-<p class="p1">          &lt;p style="font-size:14px;color:var(--dim);margin:8px 0 12px"&gt;${r.about}&lt;/p&gt;</p>
-<p class="p1">          &lt;div class="race-protocols"&gt;${protos}&lt;/div&gt;</p>
-<p class="p1">        &lt;/div&gt;</p>
-<p class="p1">      &lt;/div&gt;`;</p>
-<p class="p1">  });</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">// ── GROCERY DATA ──</p>
-<p class="p1">const grocPhases = [</p>
-<p class="p1">  {label:'Base Training', id:'g1'},</p>
-<p class="p1">  {label:'Race Week', id:'g2'},</p>
-<p class="p1">  {label:'Long Run Week', id:'g3'},</p>
-<p class="p1">  {label:'Recovery Week', id:'g4'},</p>
-<p class="p1">  {label:'Off-Season / Recomp', id:'g5'},</p>
-<p class="p1">];</p>
-<p class="p1">let currentGroc = 'g1';</p>
-<p class="p2"><br></p>
-<p class="p1">const groceryLists = {</p>
-<p class="p1">  g1: {</p>
-<p class="p1">    title:'Base Training Week',</p>
-<p class="p1">    note:'Full training week with 4–5 runs and 3 strength sessions. ~2400–2600 cal/day.',</p>
-<p class="p1">    cats:[</p>
-<p class="p1">      {title:'Protein',items:['Salmon fillets (3–4)',  'Chicken thighs (1kg)', 'Lean ground beef or bison (500g)', 'Eggs (18 count)', 'Greek yogurt (2L tub)', 'Cottage cheese (large tub)', 'Whey or plant protein powder']},</p>
-<p class="p1">      {title:'Carbs &amp; Fuel',items:['Rolled oats (large bag)', 'White rice (2kg)', 'Potatoes (1kg)', 'Sourdough bread', 'Rice cakes (2 packages)', 'Bananas (2 bunches)', 'Pasta (500g)']},</p>
-<p class="p1">      {title:'Fruits &amp; Veg',items:['Mixed frozen berries (1kg)', 'Fresh spinach / kale', 'Broccoli + zucchini', 'Sweet potatoes (4)', 'Cherry tomatoes', 'Avocados (4–5)', 'Lemon (4)']},</p>
-<p class="p1">      {title:'Fats &amp; Seeds',items:['Hemp seeds (bag)', 'Ground flaxseed (bag)', 'Pumpkin seeds (bag)', 'Walnuts', 'Almond butter', 'Olive oil', 'Coconut oil or butter']},</p>
-<p class="p1">      {title:'Dairy &amp; Nursing',items:['Kefir (1L)', 'Full-fat Greek yogurt', 'Whole milk or oat milk', 'Brewer\'s yeast (supplement)', 'Fenugreek tea']},</p>
-<p class="p1">      {title:'Race / Run Fuel',items:['Energy gels (6–8)', 'Electrolyte mix (LMNT or similar)', 'Dates or Medjool dates', 'Honey', 'Dark chocolate (85%)']},</p>
-<p class="p1">      {title:'Supplements',items:['Postnatal multivitamin', 'Omega-3 / DHA', 'Vitamin D3', 'Magnesium glycinate', 'Tart cherry extract', 'Collagen powder']},</p>
-<p class="p1">    ]</p>
-<p class="p1">  },</p>
-<p class="p1">  g2: {</p>
-<p class="p1">    title:'Race Week Grocery List',</p>
-<p class="p1">    note:'Focus on carbs, easily digestible foods, extra electrolytes. Cut high-fibre items.',</p>
-<p class="p1">    cats:[</p>
-<p class="p1">      {title:'Carb Load Priority',items:['Pasta (1kg)', 'White rice (extra bag)', 'Bread (white sourdough)', 'Potatoes (1.5kg)', 'Bananas (3 bunches)', 'Honey + maple syrup', 'Rice cakes (3 packages)']},</p>
-<p class="p1">      {title:'Lean Protein (Low Fat)',items:['Chicken breast (1kg)', 'Eggs (12)', 'Greek yogurt', 'Cottage cheese', 'Tuna cans (3)']},</p>
-<p class="p1">      {title:'Race Day Fuel',items:['Energy gels (10–12)', 'Salt tabs / sodium caps', 'Electrolyte sachets (10+)', 'Dates + banana chips', 'Gummy bears (race pocket fuel)']},</p>
-<p class="p1">      {title:'Easy Digestion Foods',items:['White bread (not whole grain)', 'Sports drinks', 'Chicken broth (sodium)', 'Crackers (low fibre)', 'Applesauce pouches']},</p>
-<p class="p1">      {title:'Post-Race Recovery',items:['Chocolate milk (1L)', 'Protein powder', 'Tart cherry juice', 'Berries (frozen)', 'Salmon (for recovery dinner)']},</p>
-<p class="p1">    ]</p>
-<p class="p1">  },</p>
-<p class="p1">  g3: {</p>
-<p class="p1">    title:'Long Run Week (15–20km+)',</p>
-<p class="p1">    note:'Higher calories, extra carbs, big post-run recovery focus.',</p>
-<p class="p1">    cats:[</p>
-<p class="p1">      {title:'Pre-Run Staples',items:['Oats (extra)', 'Bananas (3 bunches)', 'Honey', 'Almond butter (large jar)', 'Maple syrup']},</p>
-<p class="p1">      {title:'During Run Fuel',items:['Energy gels (6–8)', 'Chews / dates', 'Electrolyte mix (2 week supply)', 'Nuun tablets']},</p>
-<p class="p1">      {title:'Post-Run Recovery',items:['Chocolate milk (1.5L)', 'Greek yogurt (2L)', 'Whey protein', 'Granola', 'Tart cherry juice']},</p>
-<p class="p1">      {title:'High-Calorie Meals',items:['Salmon (4 fillets)', 'Sweet potatoes (1kg)', 'White rice (2kg)', 'Avocados (6)', 'Full-fat dairy items']},</p>
-<p class="p1">      {title:'Anti-Inflammatory',items:['Turmeric + black pepper', 'Ginger (fresh)', 'Frozen berries (2kg)', 'Omega-3 supplement', 'Walnuts (large bag)']},</p>
-<p class="p1">    ]</p>
-<p class="p1">  },</p>
-<p class="p1">  g4: {</p>
-<p class="p1">    title:'Recovery Week',</p>
-<p class="p1">    note:'Lower calories, high anti-inflammatory foods, still high protein. Let the body rebuild.',</p>
-<p class="p1">    cats:[</p>
-<p class="p1">      {title:'Anti-Inflammatory Priority',items:['Salmon (3–4 portions)', 'Sardines in olive oil', 'Turmeric', 'Fresh ginger', 'Frozen blueberries + cherries', 'Tart cherry juice', 'Walnuts']},</p>
-<p class="p1">      {title:'Gentle Protein',items:['Eggs (18)', 'Cottage cheese', 'Greek yogurt', 'Chicken breast', 'Lentils (gentle on gut)']},</p>
-<p class="p1">      {title:'Nourishing Carbs',items:['Sweet potatoes', 'Brown rice (lighter option)', 'Oats', 'Bananas', 'Sourdough (small loaf)']},</p>
-<p class="p1">      {title:'Gut Health',items:['Kefir (2L)', 'Kombucha', 'Kimchi or sauerkraut', 'Bone broth', 'Green tea']},</p>
-<p class="p1">      {title:'Nursing Support',items:['Brewer\'s yeast', 'Fenugreek tea', 'Oats (galactagogue)', 'Flaxseed', 'Sesame seeds']},</p>
-<p class="p1">    ]</p>
-<p class="p1">  },</p>
-<p class="p1">  g5: {</p>
-<p class="p1">    title:'Off-Season / Recomp Phase (Nov–Jan)',</p>
-<p class="p1">    note:'Slight deficit (–250 cal). High protein. Heavy strength. Build muscle, lose fat. Protect milk supply.',</p>
-<p class="p1">    cats:[</p>
-<p class="p1">      {title:'High Protein Focus',items:['Chicken breast (1.2kg)', 'Lean beef mince (500g)', 'Eggs (18)', 'Cottage cheese (large)', 'Greek yogurt (2L)', 'Canned tuna (6 cans)', 'Protein powder']},</p>
-<p class="p1">      {title:'Controlled Carbs',items:['Oats', 'Sweet potato (1kg)', 'Brown rice (1kg)', 'Bananas', 'Rice cakes (1 pack)', 'Legumes (lentils, chickpeas)']},</p>
-<p class="p1">      {title:'Body Composition Veg',items:['Spinach (large bag)', 'Broccoli (2 heads)', 'Zucchini', 'Bell peppers', 'Cauliflower', 'Brussels sprouts']},</p>
-<p class="p1">      {title:'Healthy Fats',items:['Avocados (4)', 'Walnuts + almonds', 'Almond butter', 'Olive oil', 'Fatty fish weekly', 'Chia seeds']},</p>
-<p class="p1">      {title:'Recomp Supplements',items:['Creatine monohydrate (3–5g/day)', 'Postnatal multi', 'Magnesium', 'Vitamin D', 'Collagen', 'Omega-3']},</p>
-<p class="p1">    ]</p>
-<p class="p1">  },</p>
-<p class="p1">};</p>
-<p class="p2"><br></p>
-<p class="p1">let checkStates = {};</p>
-<p class="p2"><br></p>
-<p class="p1">function buildGrocWeekBar(){</p>
-<p class="p1">  const bar = document.getElementById('grocWeekBar');</p>
-<p class="p1">  grocPhases.forEach(p=&gt;{</p>
-<p class="p1">    const btn = document.createElement('button');</p>
-<p class="p1">    btn.className = 'wbtn' + (p.id===currentGroc?' active':'');</p>
-<p class="p1">    btn.textContent = p.label;</p>
-<p class="p1">    btn.onclick = ()=&gt;selectGroc(p.id);</p>
-<p class="p1">    bar.appendChild(btn);</p>
-<p class="p1">  });</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">function selectGroc(id){</p>
-<p class="p1">  currentGroc = id;</p>
-<p class="p1">  document.querySelectorAll('#grocWeekBar .wbtn').forEach((b,i)=&gt;{</p>
-<p class="p1">    b.classList.toggle('active', grocPhases[i].id===id);</p>
-<p class="p1">  });</p>
-<p class="p1">  renderGroc(id);</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">function renderGroc(id){</p>
-<p class="p1">  const list = groceryLists[id];</p>
-<p class="p1">  const cont = document.getElementById('grocContent');</p>
-<p class="p1">  cont.innerHTML = `</p>
-<p class="p1">    &lt;div class="callout" style="margin-bottom:20px"&gt;&lt;strong&gt;${list.title}&lt;/strong&gt; — ${list.note}&lt;/div&gt;</p>
-<p class="p1">    &lt;div class="grocery-grid" id="grocGrid"&gt;&lt;/div&gt;`;</p>
-<p class="p1">  const grid = document.getElementById('grocGrid');</p>
-<p class="p1">  list.cats.forEach(cat=&gt;{</p>
-<p class="p1">    const div = document.createElement('div');</p>
-<p class="p1">    div.className = 'g-cat';</p>
-<p class="p1">    const items = cat.items.map((item,i)=&gt;{</p>
-<p class="p1">      const key = `${id}-${cat.title}-${i}`;</p>
-<p class="p1">      const checked = checkStates[key] || false;</p>
-<p class="p1">      return `&lt;div class="g-item${checked?' done':''}" id="gi-${key}"&gt;</p>
-<p class="p1">        &lt;input type="checkbox" id="cb-${key}" ${checked?'checked':''} onchange="toggleGroc('${key}')"&gt;</p>
-<p class="p1">        &lt;label for="cb-${key}"&gt;${item}&lt;/label&gt;</p>
-<p class="p1">      &lt;/div&gt;`;</p>
-<p class="p1">    }).join('');</p>
-<p class="p1">    div.innerHTML = `&lt;h4&gt;${cat.title}&lt;/h4&gt;${items}`;</p>
-<p class="p1">    grid.appendChild(div);</p>
-<p class="p1">  });</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">function toggleGroc(key){</p>
-<p class="p1">  checkStates[key] = !checkStates[key];</p>
-<p class="p1">  const item = document.getElementById('gi-'+key);</p>
-<p class="p1">  if(item) item.classList.toggle('done', checkStates[key]);</p>
-<p class="p1">}</p>
-<p class="p2"><br></p>
-<p class="p1">// ── INIT ──</p>
-<p class="p1">document.addEventListener('DOMContentLoaded', ()=&gt;{</p>
-<p class="p1">  buildSessions();</p>
-<p class="p1">  buildWeekBar();</p>
-<p class="p1">  renderDays('w1');</p>
-<p class="p1">  buildRaceCards();</p>
-<p class="p1">  buildGrocWeekBar();</p>
-<p class="p1">  renderGroc('g1');</p>
-<p class="p1">});</p>
-<p class="p1">&lt;/script&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+
+<nav class="nav">
+  <div class="brand">RACE READY</div>
+  <div class="nav-tabs">
+    <button class="tab active" data-page="program"   onclick="go('program')">Weekly Program</button>
+    <button class="tab"        data-page="strength"  onclick="go('strength')">Strength</button>
+    <button class="tab"        data-page="running"   onclick="go('running')">Running</button>
+    <button class="tab"        data-page="nutrition" onclick="go('nutrition')">Nutrition</button>
+    <button class="tab"        data-page="races"     onclick="go('races')">Race Calendar</button>
+    <button class="tab"        data-page="grocery"   onclick="go('grocery')">Grocery</button>
+  </div>
+</nav>
+
+<!-- PAGE: WEEKLY PROGRAM -->
+<div id="page-program" class="page active">
+  <div class="hero" style="--accent-color:var(--gold)">
+    <div class="eyebrow">Day-by-Day &middot; Full Integration</div>
+    <h1>WEEKLY PROGRAM</h1>
+    <p class="hero-sub">Running + Strength + Nutrition &middot; Matched to your race calendar</p>
+  </div>
+  <div class="week-bar" id="weekBar"></div>
+  <div class="day-grid" id="dayGrid"></div>
+</div>
+
+<!-- PAGE: STRENGTH -->
+<div id="page-strength" class="page">
+  <div class="hero" style="--accent-color:var(--rose)">
+    <div class="eyebrow">Runner Strength &middot; Injury Prevention &middot; Aesthetics</div>
+    <h1>STRENGTH PLAN</h1>
+    <p class="hero-sub">Bulletproof knees, hips &amp; ankles &mdash; and the body to match</p>
+  </div>
+  <div class="wrap">
+    <div class="stats">
+      <div class="stat"><div class="stat-n">3&times;</div><div class="stat-l">Per Week</div></div>
+      <div class="stat"><div class="stat-n">45</div><div class="stat-l">Min / Session</div></div>
+      <div class="stat"><div class="stat-n">Single</div><div class="stat-l">Leg Priority</div></div>
+      <div class="stat"><div class="stat-n">Every</div><div class="stat-l">Session Has Core</div></div>
+    </div>
+
+    <div class="callout" style="--accent-color:var(--rose)">
+      <strong>The strategy:</strong> Every session targets the injury triangle &mdash; knees, hips, ankles &mdash; with progressive loading that also builds the glutes, legs, and shoulders that make you look and feel incredible. You don't have to choose between protection and aesthetics. These are the same goals.
+    </div>
+
+    <div class="slabel" style="color:var(--rose)">Session A &middot; Monday or Tuesday</div>
+    <h2>GLUTES &amp; KNEE ARMOUR</h2>
+    <p style="margin-bottom:18px;font-size:15px;color:var(--dim)"><em>Primary focus: glute development, VMO strength, knee tracking. Makes your legs look incredible and protects every footstrike.</em></p>
+    <div id="sessionA"></div>
+
+    <hr class="div">
+
+    <div class="slabel" style="color:var(--rose)">Session B &middot; Wednesday or Thursday</div>
+    <h2>POSTERIOR CHAIN &amp; HIP HEALTH</h2>
+    <p style="margin-bottom:18px;font-size:15px;color:var(--dim)"><em>Hamstrings, hips, IT band support. The muscles that define a runner's physique and stop injuries before they start.</em></p>
+    <div id="sessionB"></div>
+
+    <hr class="div">
+
+    <div class="slabel" style="color:var(--rose)">Session C &middot; Friday or Saturday</div>
+    <h2>ANKLE STABILITY &amp; UPPER BODY</h2>
+    <p style="margin-bottom:18px;font-size:15px;color:var(--dim)"><em>Ankle &amp; foot resilience, single-leg balance, shoulders and arms for that full-body athletic look.</em></p>
+    <div id="sessionC"></div>
+
+    <hr class="div">
+
+    <div class="slabel" style="color:var(--gold)">Daily &middot; 10 Minutes</div>
+    <h2>INJURY PREVENTION ROUTINE</h2>
+    <div class="grid grid-3" style="margin-bottom:28px">
+      <div class="card card-accent-top" style="--accent-color:var(--sage)">
+        <h3>Morning (5 min)</h3>
+        <p><strong>Hip flexor stretch</strong> 90s/side<br>
+        <strong>Ankle alphabet</strong> 30s/foot<br>
+        <strong>Glute bridge</strong> &times;20 slow<br>
+        <strong>Cat-cow</strong> &times;10<br>
+        <em>Do this before coffee. Non-negotiable.</em></p>
+      </div>
+      <div class="card card-accent-top" style="--accent-color:var(--gold)">
+        <h3>Post-Run (3 min)</h3>
+        <p><strong>Calf stretch</strong> 60s/side<br>
+        <strong>IT band foam roll</strong> 60s/side<br>
+        <strong>Pigeon pose</strong> 60s/side<br>
+        <em>Every single run. No skipping.</em></p>
+      </div>
+      <div class="card card-accent-top" style="--accent-color:var(--rose)">
+        <h3>Evening (2 min)</h3>
+        <p><strong>Eccentric calf lower</strong> &times;15/foot<br>
+        <strong>Clam shells</strong> &times;15/side<br>
+        <strong>Foot doming</strong> &times;20/foot<br>
+        <em>Watch TV. Do these. Done.</em></p>
+      </div>
+    </div>
+
+    <div class="warning">
+      <div class="warning-title">Knee Red Flags &mdash; Stop &amp; Rest</div>
+      <p style="font-size:14px">Pain (not soreness) during squats, going downstairs, or lateral movements. Sharp pain behind the kneecap. Swelling. Any pain that changes your gait. These mean rest + ice + assess &mdash; not push through.</p>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: RUNNING -->
+<div id="page-running" class="page">
+  <div class="hero" style="--accent-color:var(--sage)">
+    <div class="eyebrow">Periodized &middot; Race-Specific</div>
+    <h1>RUNNING PLAN</h1>
+    <p class="hero-sub">40&ndash;70km/week &middot; 6:40&ndash;7:00/km &middot; Sub-2:00 half marathon</p>
+  </div>
+  <div class="wrap">
+    <div class="stats">
+      <div class="stat"><div class="stat-n">4&ndash;5</div><div class="stat-l">Runs / Week</div></div>
+      <div class="stat"><div class="stat-n">1</div><div class="stat-l">Long Run / Week</div></div>
+      <div class="stat"><div class="stat-n">80%</div><div class="stat-l">Easy Pace</div></div>
+      <div class="stat"><div class="stat-n">6:40</div><div class="stat-l">Race Target /km</div></div>
+    </div>
+
+    <div class="grid grid-2" style="margin-bottom:28px">
+      <div class="card card-accent-top" style="--accent-color:var(--sage)">
+        <h3>Run Types</h3>
+        <p><strong>Easy / Recovery:</strong> 6:00&ndash;8:30/km &mdash; conversational. This is 80% of your volume. Most people run these too fast.<br><br>
+        <strong>Tempo:</strong> 5:50&ndash;6:10/km &mdash; comfortably hard. 20&ndash;40 min sustained.<br><br>
+        <strong>Intervals:</strong> 5:15&ndash;5:35/km &mdash; hard efforts with full rest. 400m&ndash;1km repeats.<br><br>
+        <strong>Long Run:</strong> 6:30&ndash;7:30/km &mdash; easy, build to 21&ndash;26km. Practice race nutrition.</p>
+      </div>
+      <div class="card card-accent-top" style="--accent-color:var(--gold)">
+        <h3>Phase Overview</h3>
+        <p><strong>Phase 1 (Now&ndash;May 25):</strong> Base + speed work. Sub-2 prep.<br><br>
+        <strong>Phase 2 (Jun&ndash;Jul):</strong> Trail adaptation, elevation, heat. Sinister 7 build.<br><br>
+        <strong>Phase 3 (Jul&ndash;Aug):</strong> Peak race block. Death Race + Black Spur back-to-back. Manage carefully.<br><br>
+        <strong>Phase 4 (Sep&ndash;Oct):</strong> Performance peak. Fort Mac PR attempt. Grizzly finale.<br><br>
+        <strong>Off-season (Nov&ndash;Jan):</strong> Recomp. Lower volume, heavy strength.<br><br>
+        <strong>Phase 5 (Feb&ndash;Mar):</strong> Big Island marathon build.</p>
+      </div>
+    </div>
+
+    <div class="slabel">Weekly Structure</div>
+    <h2>YOUR TRAINING WEEK</h2>
+    <div class="grid grid-2" style="margin-bottom:28px">
+      <div class="card"><p>
+        <strong>Monday:</strong> Easy run 6&ndash;8km + Strength A<br>
+        <strong>Tuesday:</strong> Interval or Tempo run 8&ndash;12km<br>
+        <strong>Wednesday:</strong> Strength B + optional easy 5km<br>
+        <strong>Thursday:</strong> Easy-moderate run 8&ndash;12km<br>
+        <strong>Friday:</strong> Strength C + strides (6&times;100m fast)<br>
+        <strong>Saturday:</strong> Long run 15&ndash;26km (NO strength)<br>
+        <strong>Sunday:</strong> Full rest or 30-min walk/yoga
+      </p></div>
+      <div class="card">
+        <h3>Injury Prevention Running Rules</h3>
+        <p>
+        <strong>1.</strong> Never increase weekly mileage more than 10% week-over-week.<br>
+        <strong>2.</strong> One quality session per week max in the 6 weeks before a race.<br>
+        <strong>3.</strong> If your legs feel heavy after a long run &mdash; the next run is EASY. No exceptions.<br>
+        <strong>4.</strong> Cadence target: 170&ndash;180 steps/min. Short quick steps protect knees.<br>
+        <strong>5.</strong> Replace shoes every 600&ndash;700km. Midsole breakdown = knee pain.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: NUTRITION -->
+<div id="page-nutrition" class="page">
+  <div class="hero" style="--accent-color:var(--gold)">
+    <div class="eyebrow">Performance &middot; Body Composition &middot; Breastfeeding</div>
+    <h1>NUTRITION PLAN</h1>
+    <p class="hero-sub">Fuel to race fast, look incredible, and protect your milk supply</p>
+  </div>
+  <div class="wrap">
+    <div class="warning">
+      <div class="warning-title">Breastfeeding Priority</div>
+      <p style="font-size:14px">Even at 13 months, nursing demands +300&ndash;500 cal/day and higher hydration. No aggressive cuts. You are body recomposing &mdash; losing fat while building muscle &mdash; which is more powerful than dieting and far safer while breastfeeding.</p>
+    </div>
+
+    <div class="slabel">Daily Calorie Targets</div>
+    <h2>HOW MUCH TO EAT</h2>
+    <div class="macro-grid" style="--accent-color:var(--gold)">
+      <div class="macro-card"><div class="macro-n">2400<span class="macro-u">&ndash;2600</span></div><div class="macro-l">Training Days</div><div class="macro-note">6&ndash;10km runs. Full strength sessions.</div></div>
+      <div class="macro-card"><div class="macro-n">2700<span class="macro-u">&ndash;3000</span></div><div class="macro-l">Long Run Days</div><div class="macro-note">15km+. Add 80 cal/mile. Do NOT restrict.</div></div>
+      <div class="macro-card"><div class="macro-n">2100<span class="macro-u">&ndash;2300</span></div><div class="macro-l">Rest Days</div><div class="macro-note">Still elevated for nursing + repair.</div></div>
+      <div class="macro-card"><div class="macro-n">145<span class="macro-u">&ndash;160g</span></div><div class="macro-l">Protein Daily</div><div class="macro-note">The number that changes your body.</div></div>
+      <div class="macro-card"><div class="macro-n">220<span class="macro-u">&ndash;280g</span></div><div class="macro-l">Carbs Daily</div><div class="macro-note">Higher on long run / race days.</div></div>
+      <div class="macro-card"><div class="macro-n">70<span class="macro-u">&ndash;85g</span></div><div class="macro-l">Fats Daily</div><div class="macro-note">Hormones, brain, milk quality.</div></div>
+    </div>
+
+    <hr class="div">
+
+    <div class="slabel">Your Actual Meals</div>
+    <h2>DAILY MEAL BLUEPRINT</h2>
+    <div class="grid grid-2" style="margin-bottom:20px">
+      <div class="card card-accent-top" style="--accent-color:var(--gold)">
+        <span class="tag tag-gold">Breakfast &middot; ~400 cal</span>
+        <h3>Protein Power Shake</h3>
+        <p><strong>Base:</strong> 200ml kefir + 1 scoop protein powder or 2 tbsp hemp seeds<br>
+        <strong>Add:</strong> 1 cup mixed berries (frozen OK)<br>
+        <strong>Seeds:</strong> 1 tbsp flaxseed + 1 tbsp pumpkin seeds + 1 tsp brewer's yeast<br>
+        <strong>Optional:</strong> &frac12; banana for extra carbs on run days<br><br>
+        <em>~35g protein &middot; 40g carbs &middot; 14g fat</em><br>
+        <em>Galactagogue stack: flax + brewer's yeast support milk supply.</em></p>
+      </div>
+      <div class="card card-accent-top" style="--accent-color:var(--sage)">
+        <span class="tag tag-sage">Lunch &middot; ~450&ndash;500 cal</span>
+        <h3>Simple Go-To Plate</h3>
+        <p><strong>Protein:</strong> 3 whole eggs (scrambled or hard boiled) + &frac12; cup cottage cheese<br>
+        <strong>Carbs:</strong> 3&ndash;4 rice cakes<br>
+        <strong>Fruit:</strong> 1&ndash;2 bananas<br>
+        <strong>Optional:</strong> handful of walnuts or drizzle of almond butter<br><br>
+        <em>~38g protein &middot; 55g carbs &middot; 16g fat</em><br>
+        <em>Quick, portable, no cooking required. Perfect for busy mum life.</em></p>
+      </div>
+      <div class="card card-accent-top" style="--accent-color:var(--rose)">
+        <span class="tag tag-rose">Dinner &middot; ~550&ndash;650 cal</span>
+        <h3>Protein + Starch + Veg</h3>
+        <p><strong>Protein (180&ndash;200g):</strong> Salmon &middot; Chicken thigh &middot; Lean beef &middot; Turkey &middot; Shrimp<br>
+        <strong>Starch:</strong> 1&ndash;1.5 cups cooked rice OR 1 medium potato (any style)<br>
+        <strong>Veg:</strong> 2 cups any roasted or steamed vegetables<br>
+        <strong>Fat:</strong> Olive oil or butter for cooking<br><br>
+        <em>~42g protein &middot; 55g carbs &middot; 20g fat</em></p>
+      </div>
+      <div class="card card-accent-top" style="--accent-color:var(--sky)">
+        <span class="tag tag-sky">Snacks &middot; ~300&ndash;400 cal total</span>
+        <h3>Strategic Snacking</h3>
+        <p><strong>Pre-run snack (if needed):</strong> 2 rice cakes + honey + banana &mdash; 30&ndash;60 min before<br><br>
+        <strong>Post-run (within 30 min):</strong> Greek yogurt + berries + granola OR chocolate milk + protein shake<br><br>
+        <strong>Evening:</strong> Greek yogurt (200g) + seeds &mdash; slow protein feeds overnight muscle repair + nursing<br><br>
+        <em>Post-run nutrition is your most important meal. Never skip it.</em></p>
+      </div>
+    </div>
+
+    <hr class="div">
+
+    <div class="slabel">Race Week Fueling</div>
+    <h2>RACE NUTRITION PROTOCOL</h2>
+    <div class="grid grid-3">
+      <div class="card"><span class="tag tag-gold">48hrs Before</span><p style="font-size:14px">Carb-load: 8&ndash;10g/kg bodyweight. Simple carbs. Pasta, rice, bread, banana. Cut fibre and fat. Salt your food.</p></div>
+      <div class="card"><span class="tag tag-gold">Race Morning</span><p style="font-size:14px">Protein shake + 2 rice cakes + honey + banana. 90 min before gun. 500ml electrolytes. No new foods.</p></div>
+      <div class="card"><span class="tag tag-gold">During Race</span><p style="font-size:14px">Gel every 40 min from km 5. Target 45&ndash;60g carbs/hour. Sip water at every station.</p></div>
+      <div class="card"><span class="tag tag-sage">Hydration</span><p style="font-size:14px">4&ndash;5L daily on run days. Electrolytes (not just water) on all runs over 45 min. Breastfeeding raises sodium losses.</p></div>
+      <div class="card"><span class="tag tag-rose">Post-Race</span><p style="font-size:14px">Protein shake within 20 min. Full meal within 90 min. Nurse or pump &mdash; refuel milk supply. Legs up + ice 20 min.</p></div>
+      <div class="card"><span class="tag tag-sky">Supplements</span><p style="font-size:14px">Postnatal multi &middot; Omega-3 DHA &middot; Vit D3 &middot; Magnesium glycinate &middot; Tart cherry &middot; Collagen + Vit C &middot; Electrolytes daily</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE: RACES -->
+<div id="page-races" class="page">
+  <div class="hero" style="--accent-color:var(--cream)">
+    <div class="eyebrow">2025&ndash;2026 Season</div>
+    <h1>RACE CALENDAR</h1>
+    <p class="hero-sub">Seven races. One full marathon. Every start line earned.</p>
+  </div>
+  <div class="wrap">
+    <div class="stats">
+      <div class="stat"><div class="stat-n">7</div><div class="stat-l">Total Races</div></div>
+      <div class="stat"><div class="stat-n">6</div><div class="stat-l">Half Marathons</div></div>
+      <div class="stat"><div class="stat-n">1</div><div class="stat-l">Full Marathon</div></div>
+      <div class="stat"><div class="stat-n">&lt;2:00</div><div class="stat-l">Half Goal</div></div>
+      <div class="stat"><div class="stat-n">&lt;4:00</div><div class="stat-l">Full Goal</div></div>
+    </div>
+    <div id="raceCards"></div>
+  </div>
+</div>
+
+<!-- PAGE: GROCERY -->
+<div id="page-grocery" class="page">
+  <div class="hero" style="--accent-color:var(--sky)">
+    <div class="eyebrow">Weekly Shopping &middot; Phase-Based</div>
+    <h1>GROCERY LISTS</h1>
+    <p class="hero-sub">Everything you need, organised by week phase</p>
+  </div>
+  <div class="wrap">
+    <div class="week-bar" id="grocWeekBar"></div>
+    <div id="grocContent" style="margin-top:24px"></div>
+  </div>
+</div>
+
+<script>
+function go(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelector('.tab[data-page="'+id+'"]').classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function toggleEx(el){
+  const body = el.nextElementSibling;
+  const tog = el.querySelector('.ex-toggle');
+  body.classList.toggle('open');
+  tog.classList.toggle('open');
+}
+
+const sessions = {
+  A: {
+    title:'Glutes & Knee Armour',
+    exercises:[
+      {name:'Hip Thrust', sets:'4 x 12-15', focus:'rose',
+       how:'Shoulders on bench, barbell across hips, drive hips to ceiling. Squeeze glutes hard at top for 1 second.',
+       why:'#1 glute-builder. Protects knees by ensuring glutes fire before quads on every stride.',
+       cue:'Drive through your heels. Your ribcage stays DOWN.'},
+      {name:'Bulgarian Split Squat', sets:'3 x 10/side', focus:'rose',
+       how:'Rear foot elevated on bench. Drop back knee toward floor. Front shin stays vertical. 3 sec down, drive up.',
+       why:'Single-leg strength = injury prevention. Directly mimics running mechanics. Builds visible quad sweep.',
+       cue:'Keep your torso upright. If your front knee dives in - stop and reset.'},
+      {name:'Lateral Band Walk', sets:'3 x 20 steps/direction', focus:'sage',
+       how:'Mini band above knees. Slight squat position. Step sideways maintaining tension throughout.',
+       why:'Activates gluteus medius - the muscle that stops knee cave and IT band syndrome. Critical for you.',
+       cue:'Stay low. Do not let the band pull your knees in at any point.'},
+      {name:'VMO Squat (Heels Elevated)', sets:'3 x 15', focus:'rose',
+       how:'Heels on 1-inch plate or book. Squat deep, push knees out wide. Controls kneecap tracking.',
+       why:'Strengthens the inner quad (VMO) - the #1 muscle for kneecap tracking and runners knee prevention.',
+       cue:'Knees stay in line with pinky toes throughout the movement.'},
+      {name:'Single-Leg Glute Bridge', sets:'3 x 15/side', focus:'rose',
+       how:'Lying on floor. One foot flat, other leg raised. Drive hips up, squeeze glute at top.',
+       why:'Isolates each glute independently - reveals and corrects asymmetries that cause injuries.',
+       cue:'Hip bones level. Do not let the resting side drop.'},
+      {name:'Core: Dead Bug', sets:'3 x 10/side', focus:'gold',
+       how:'Lying on back, arms up, knees at 90 deg. Lower opposite arm + leg while keeping low back FLAT.',
+       why:'Deep core stability = efficient running = less injury. Also: the abs that make you look incredible in race photos.',
+       cue:'If your lower back lifts off the floor - make the movement smaller. Quality over range.'}
+    ]
+  },
+  B: {
+    title:'Posterior Chain & Hip Health',
+    exercises:[
+      {name:'Romanian Deadlift (Single-Leg)', sets:'3 x 10/side', focus:'rose',
+       how:'Stand on one leg, hinge forward with flat back, weight hangs straight down. Feel hamstring load fully.',
+       why:'Builds hamstrings and glutes while training single-leg balance - the exact pattern of every running stride.',
+       cue:'Your back stays FLAT the entire time. This is a hinge, not a squat.'},
+      {name:'Nordic Hamstring Curl', sets:'3 x 6 (slow!)', focus:'rose',
+       how:'Kneel, feet anchored (under couch/partner). Lower your body toward floor as slowly as possible (3-5 sec). Catch yourself, reset.',
+       why:'The most effective hamstring injury prevention exercise in existence. Eccentric loading prevents muscle tears.',
+       cue:'Go SLOW on the way down. Speed defeats the purpose. This will feel hard immediately.'},
+      {name:'Clamshell + Banded Hip Abduction', sets:'3 x 15/side', focus:'sage',
+       how:'Side lying, mini band above knees. Open top knee (clamshell). Then straighten leg and lift (abduction). These are separate exercises - do both.',
+       why:'Hip abductors prevent hip drop when running. Hip drop = knee injury. This protects your IT band, hips and knees simultaneously.',
+       cue:'Keep your pelvis completely still. Only the leg moves.'},
+      {name:'Sumo Deadlift or Trap Bar', sets:'4 x 6', focus:'rose',
+       how:'Wide stance, toes out. Push the floor away (do not think pull). Keep chest tall throughout.',
+       why:'The best total posterior chain builder. Hamstrings, glutes, back - all the muscles that give runners that athletic shape.',
+       cue:'Bar stays close to your body the entire lift. Breathe in at the top, brace, lift.'},
+      {name:'90/90 Hip Stretch (Active)', sets:'2 x 60s/side', focus:'sage',
+       how:'Sit with both legs at 90 degrees. Rotate toward front leg. Lean forward over it. Hold, breathe into the hip.',
+       why:'Hip flexor + external rotator mobility. Tight hips = knee compensation = injury. This directly prevents that chain reaction.',
+       cue:'Sit tall first, then lean. Do not let your back round.'},
+      {name:'Copenhagen Plank', sets:'3 x 20-30s/side', focus:'rose',
+       how:'Side plank. Top leg on bench (inner thigh facing down). Bottom leg can hang or rest. Hold position.',
+       why:'Trains hip adductors - the forgotten inner thigh muscles that stabilise your pelvis and give your legs shape.',
+       cue:'Hip stays HIGH. If it drops - you are not getting the benefit.'}
+    ]
+  },
+  C: {
+    title:'Ankles, Stability & Upper Body',
+    exercises:[
+      {name:'Single-Leg Calf Raise (Eccentric)', sets:'3 x 15/side', focus:'rose',
+       how:'Stand on one foot (use wall for balance). Rise up on TWO feet. Lower on ONE foot - count 3 seconds down. This is the key: the slow lowering.',
+       why:'The #1 Achilles and plantar fascia injury prevention exercise. Eccentric calf loading at your mileage is absolutely mandatory.',
+       cue:'Control the entire way down. If it burns - that is correct.'},
+      {name:'Single-Leg Balance - Eyes Closed', sets:'3 x 30-45s/side', focus:'sage',
+       how:'Stand on one foot, slight knee bend. Close eyes. Focus on micro-adjustments in your ankle.',
+       why:'Proprioception training - your ankles ability to react to uneven terrain (critical for trail races). Prevents ankle sprains.',
+       cue:'Soft knee. Breathe. If you wobble a lot - that is your weak ankle. Train it more.'},
+      {name:'Banded Ankle Dorsiflexion', sets:'3 x 15/side', focus:'sage',
+       how:'Band around ankle, attached low behind you. Shift weight forward over toes, push knee past toes against band resistance.',
+       why:'Dorsiflexion restriction = ankle, knee, AND hip compensation. Fix the ankle and everything above it improves.',
+       cue:'Heel stays completely flat. The movement is forward, not up.'},
+      {name:'Step-Up with Knee Drive', sets:'3 x 10/side', focus:'rose',
+       how:'Step onto box with one foot. Drive the opposite knee up high as you stand. Lower with control. This is both a strength AND balance exercise.',
+       why:'Directly simulates uphill running. Builds the glute and hip flexor strength that protects your knees on trails.',
+       cue:'Drive the knee UP - this activates the hip flexor and conditions it against strain.'},
+      {name:'Bent-Over Row', sets:'3 x 12', focus:'gold',
+       how:'Hinge forward 45 deg, pull dumbbells/bar to lower ribs, squeeze shoulder blades together at top.',
+       why:'Strong back = efficient arm swing = faster running + the sculpted upper back that looks incredible.',
+       cue:'Elbows close to body. Your neck is long - look at the floor 1m in front of you.'},
+      {name:'Push-Up Variations', sets:'3 x 12', focus:'gold',
+       how:'Standard, or elevate feet for upper chest emphasis, or deficit push-ups for range. Choose a variation that is challenging for 12 reps.',
+       why:'Balanced upper body pushing strength. Strong chest and shoulders complete the athletic physique.',
+       cue:'Body is one rigid plank from head to heels. No sagging hips.'},
+      {name:'Core: Suitcase Carry', sets:'3 x 30s/side', focus:'gold',
+       how:'Hold a heavy dumbbell in ONE hand only. Walk slowly. Stay completely upright - do not lean toward the weight.',
+       why:'Anti-lateral-flexion core strength. Directly trains the obliques that give you a defined waist and stabilise your pelvis at every stride.',
+       cue:'Imagine a book on your head. Walk tall. The weight should feel like it is trying to pull you over - resist that.'}
+    ]
+  }
+};
+
+function buildSessions(){
+  ['A','B','C'].forEach(s=>{
+    const container = document.getElementById('session'+s);
+    if(!container) return;
+    sessions[s].exercises.forEach(ex=>{
+      const setsClass = ex.focus==='rose'?'rose-sets':ex.focus==='sage'?'sage-sets':'';
+      const card = document.createElement('div');
+      card.className = 'ex-card';
+      card.innerHTML =
+        '<div class="ex-header" onclick="toggleEx(this)">' +
+          '<span class="ex-name"></span>' +
+          '<div style="display:flex;align-items:center;gap:10px">' +
+            '<span class="ex-sets ' + setsClass + '"></span>' +
+            '<span class="ex-toggle">+</span>' +
+          '</div>' +
+        '</div>' +
+        '<div class="ex-body">' +
+          '<div class="ex-detail">' +
+            '<strong>How:</strong> <span class="how-text"></span>' +
+            '<span class="why"></span>' +
+            '<span class="cue"></span>' +
+          '</div>' +
+        '</div>';
+      card.querySelector('.ex-name').textContent = ex.name;
+      card.querySelector('.ex-sets').textContent = ex.sets;
+      card.querySelector('.how-text').textContent = ex.how;
+      card.querySelector('.why').textContent = 'Why this for you: ' + ex.why;
+      card.querySelector('.cue').textContent = 'Coaching cue: ' + ex.cue;
+      container.appendChild(card);
+    });
+  });
+}
+
+const phases = [
+  { label:'Phase 1', weeks:[
+    {id:'w1', label:'Week 1', phase:'Base Building', subRace:null},
+    {id:'w2', label:'Week 2', phase:'Base Building', subRace:null},
+    {id:'w3', label:'Week 3', phase:'Base Building', subRace:null},
+    {id:'w4', label:'Week 4', phase:'Easy Recovery Week', subRace:null}
+  ]},
+  { label:'Pre-Race 1', weeks:[
+    {id:'w5', label:'Week 5', phase:'Sharpening', subRace:null},
+    {id:'w6', label:'Week 6', phase:'RACE WEEK - Saskatoon May 31', subRace:'saskatoon', isRace:true}
+  ]},
+  { label:'Phase 2', weeks:[
+    {id:'w7', label:'Week 7', phase:'Post-Race Recovery', subRace:null},
+    {id:'w8', label:'Week 8', phase:'Trail Build', subRace:null},
+    {id:'w9', label:'Week 9', phase:'Trail Build', subRace:null},
+    {id:'w10', label:'Week 10', phase:'RACE WEEK - Sinister 7 Jul 11', subRace:'sinister', isRace:true}
+  ]},
+  { label:'Phase 3', weeks:[
+    {id:'w11', label:'Week 11', phase:'Recovery + Maintain', subRace:null},
+    {id:'w12', label:'Week 12', phase:'Peak Race Block', subRace:null},
+    {id:'w13', label:'Week 13', phase:'RACE WEEK - Death Race Aug 1', subRace:'death', isRace:true},
+    {id:'w14', label:'Week 14', phase:'Recovery Priority', subRace:null},
+    {id:'w15', label:'Week 15', phase:'RACE WEEK - Black Spur Aug 22', subRace:'spur', isRace:true}
+  ]},
+  { label:'Phase 4', weeks:[
+    {id:'w16', label:'Week 16', phase:'Power Build', subRace:null},
+    {id:'w17', label:'Week 17', phase:'Sharpening', subRace:null},
+    {id:'w18', label:'Week 18', phase:'RACE WEEK - Fort McMurray Sep 20', subRace:'fortmac', isRace:true},
+    {id:'w19', label:'Week 19', phase:'Recovery', subRace:null},
+    {id:'w20', label:'Week 20', phase:'RACE WEEK - Grizzly Ultra Oct 11', subRace:'grizzly', isRace:true}
+  ]},
+  { label:'Off Season', weeks:[
+    {id:'w21', label:'Off-Season', phase:'Recomp Phase - Nov through Jan', subRace:null}
+  ]},
+  { label:'Big Island', weeks:[
+    {id:'w22', label:'Marathon Build', phase:'Feb-Mar 7', subRace:null},
+    {id:'w23', label:'Race Week', phase:'RACE WEEK - Big Island Mar 14', subRace:'hawaii', isRace:true}
+  ]}
+];
+
+const allWeeks = phases.flatMap(p=>p.weeks);
+let currentWeek = 'w1';
+
+function buildWeekBar(){
+  const bar = document.getElementById('weekBar');
+  allWeeks.forEach(w=>{
+    const btn = document.createElement('button');
+    btn.className = 'wbtn' + (w.isRace?' race-wk':'') + (w.id===currentWeek?' active':'');
+    btn.textContent = w.label;
+    btn.onclick = function(){ selectWeek(w.id); };
+    bar.appendChild(btn);
+  });
+}
+
+function selectWeek(id){
+  currentWeek = id;
+  document.querySelectorAll('#weekBar .wbtn').forEach((b,i)=>{
+    b.classList.toggle('active', allWeeks[i].id===id);
+  });
+  renderDays(id);
+}
+
+function getDays(weekId){
+  const w = allWeeks.find(x=>x.id===weekId);
+  const race = w.subRace;
+
+  if(race==='saskatoon') return raceWeekDays('Saskatoon Half Marathon','May 31','2400-2600','Sub 2:00:00','Road race. Prove the fitness. Gel at km 7, 12, 17.','Carb-load 48h out. Simple carbs - pasta/rice. Cut fibre. Salt everything.','Race Morning: Protein shake + 2 rice cakes + honey. 90 min before start. 500ml electrolytes.', 'Saturday');
+  if(race==='sinister') return raceWeekDays('Sinister 7 Half','July 11','2500-2700','Effort-based - Trail','Technical trail. Eat by effort not pace. Real food works here.','Extra carbs +20% vs road protocol. Sodium-load: salt every meal.','Race Morning: Oats + banana + almond butter. 120 min before. Carry real food (dates, banana).','Friday');
+  if(race==='death') return raceWeekDays('Death Race Half','Aug 1','2700-3000','Survive & Thrive','Most brutal race. Eat every 30 min. Never stop fueling.','72-hr carb load. +300 cal above normal. Electrolytes with every meal.','Race Morning: Large oats + 2 bananas + salt. Pack boiled potatoes + rice balls + dates.','Friday');
+  if(race==='spur') return raceWeekDays('Black Spur Half','Aug 22','2500-2700','Recovery Race','3 weeks post Death Race. Trust your body. You are more recovered than you feel.','Standard carb-load from Aug 20. Keep it simple - you know what works.','Race Morning: Proven pre-race meal. Nothing new. Execute with confidence.','Friday');
+  if(race==='fortmac') return raceWeekDays('Fort McMurray Half','Sep 20','2400-2600','Peak Performance','Your fitness peaks here. Negative split if possible. PR attempt.','Perfect carb-load - you have done this 4 times. Trust the process.','Race Morning: Your proven meal. Aggressive early pace is earned. Gel at km 7, 12.','Saturday');
+  if(race==='grizzly') return raceWeekDays('Grizzly Ultra Half','Oct 11','2600-2800','Cold Weather Finale','Cold adds 10-15% calorie burn. Hot food at finish. Season done - celebrate hard.','Extra carbs + fat pre-race for cold. Hot oatmeal + almond butter morning.','Race Morning: Hot oatmeal + almond butter. Keep gels close to body (stiff in cold). Hot broth at aid stations.','Saturday');
+  if(race==='hawaii') return raceWeekDays('Big Island Full Marathon','Mar 14','2700-3000','Sub-4:00 Heat Strategy','Your A-race. Heat demands conservative early pacing. Walk aid stations. Ice at every stop.','3-day carb-load. 10g carbs/kg. Pre-hydrate with extra sodium the week before.','Race Morning: Early start (~5am). Shake + rice cakes + banana 90 min before. Gel every 30-40 min from km 10.','Friday');
+
+  const phase = w.phase;
+  const isRecovery = phase.indexOf('Recovery') !== -1 || phase.indexOf('recovery') !== -1;
+  const isPeak = phase.indexOf('Peak') !== -1 || phase.indexOf('Sharpening') !== -1;
+
+  return [
+    {day:'Monday', type:'both',
+     run: isRecovery ? 'Easy 6km - truly easy. 7:30+/km.' : 'Easy Run 7-8km - 7:00-8:00/km pace - Aerobic base',
+     strength: 'Session A - Glutes & Knee Armour - 45 min',
+     cals: isRecovery ? '2200-2400' : '2400-2600',
+     preRun: 'Protein shake + 1 banana (30 min before)',
+     postRun: 'Lunch plate immediately after run - eggs + cottage cheese + rice cakes',
+     meals: normalMeals()},
+    {day:'Tuesday', type:'run',
+     run: isRecovery ? 'Easy 6km or rest. Listen to your body.' : isPeak ? 'Interval Session 10-12km - 6x1km at 5:30/km - 2min rest between' : 'Tempo Run 10km - 4km warmup - 4km at 5:50-6:00/km - 2km cooldown',
+     strength: null,
+     cals: isRecovery ? '2200-2300' : '2600-2800',
+     preRun: 'Rice cakes (3) + honey + banana - 45 min before',
+     postRun: 'Greek yogurt + berries + granola within 30 min',
+     meals: normalMeals()},
+    {day:'Wednesday', type:'strength',
+     run: 'Optional easy 5km or rest',
+     strength: 'Session B - Posterior Chain & Hip Health - 45 min',
+     cals: isRecovery ? '2100-2300' : '2300-2500',
+     preRun: null, postRun: null,
+     meals: normalMeals()},
+    {day:'Thursday', type:'run',
+     run: isRecovery ? 'Easy walk 30 min or off' : 'Easy-Moderate Run 10-12km - 6:50-7:30/km',
+     strength: null,
+     cals: isRecovery ? '2200-2400' : '2400-2600',
+     preRun: 'Protein shake (pre-made) + banana if running 10km+',
+     postRun: 'Lunch plate within 45 min',
+     meals: normalMeals()},
+    {day:'Friday', type:'strength',
+     run: 'Strides: 6x100m fast after warmup - rest 60s between. Total ~20 min.',
+     strength: 'Session C - Ankles, Stability & Upper Body - 45 min',
+     cals: '2200-2400',
+     preRun: null, postRun: null,
+     meals: normalMeals()},
+    {day:'Saturday', type:'run',
+     run: isRecovery ? 'Long Run 12-14km - easy. 7:00-8:00/km. No pressure.' : isPeak ? 'Long Run 20-24km - 7:00-7:30/km - Practice race nutrition every 40 min' : 'Long Run 16-20km - 7:00-7:30/km - Fuel every 40 min from km 8',
+     strength: null,
+     cals: isRecovery ? '2500-2700' : '2700-3000',
+     preRun: 'Oatmeal (1/2 cup dry) + banana + honey + salt - 90 min before',
+     postRun: 'CRITICAL: Protein shake immediately. Full meal (dinner-size) within 90 min. Nurse/pump after refueling.',
+     meals: longRunMeals()},
+    {day:'Sunday', type:'rest',
+     run: 'Rest or 20-30 min gentle walk',
+     strength: null,
+     cals: '2100-2300',
+     preRun: null, postRun: null,
+     meals: normalMeals()}
+  ];
+}
+
+function normalMeals(){
+  return [
+    {time:'Breakfast', name:'Protein Berry Shake', detail:'Kefir + berries + hemp + flax + pumpkin seeds + brewers yeast - ~400 cal'},
+    {time:'Lunch', name:'Simple Plate', detail:'3 eggs + 1/2 cup cottage cheese + 3-4 rice cakes + 1-2 bananas - ~450 cal'},
+    {time:'Snack', name:'Afternoon Fuel', detail:'Greek yogurt + handful walnuts OR apple + almond butter - ~250 cal'},
+    {time:'Dinner', name:'Protein + Starch + Veg', detail:'180g protein (salmon/chicken/beef) + 1 cup rice or potato + 2 cups veg - ~600 cal'},
+    {time:'Evening', name:'Recovery Snack', detail:'Greek yogurt (200g) + seeds - slow protein for overnight muscle repair + nursing - ~200 cal'}
+  ];
+}
+
+function longRunMeals(){
+  return [
+    {time:'Pre-Run', name:'Long Run Fuel', detail:'Oatmeal 1/2 cup dry + banana + honey + pinch salt - 90 min before - ~350 cal'},
+    {time:'During', name:'Race Nutrition Practice', detail:'Gel or chew every 40 min from km 8 - 500-750ml electrolytes per hour'},
+    {time:'Post-Run', name:'Recovery Window - Critical', detail:'Protein shake + chocolate milk OR Greek yogurt + granola - within 30 min - ~400 cal'},
+    {time:'Lunch', name:'Full Recovery Meal', detail:'3 eggs + cottage cheese + rice cakes + banana + extra serving - ~550 cal'},
+    {time:'Dinner', name:'High-Carb Recovery', detail:'200g salmon or beef + 1.5 cups rice + roasted veg + olive oil - ~650 cal'},
+    {time:'Evening', name:'Overnight Repair', detail:'Greek yogurt + flaxseed + berries - ~220 cal - Nurse before bed'}
+  ];
+}
+
+function raceWeekDays(raceName, raceDate, cals, goal, raceNote, carbLoad, raceAm, raceDay){
+  const days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+  const raceDayIndex = days.indexOf(raceDay);
+  return days.map((d,i)=>{
+    const daysOut = raceDayIndex - i;
+    const isRaceDay = d === raceDay;
+    const isTaper = daysOut > 0 && daysOut <= 3;
+    return {
+      day: d + (isRaceDay ? ' - ' + raceName : ''),
+      type: isRaceDay ? 'race' : daysOut > 3 ? 'run' : 'rest',
+      run: isRaceDay ? raceName + ' - ' + raceDate + ' - Goal: ' + goal :
+           daysOut === 1 ? 'Easy 10-15 min shake-out run + 4 strides. Stay loose.' :
+           daysOut === 2 ? 'Rest or 20-min walk. No running.' :
+           daysOut === 3 ? 'Easy 5-6km. Final easy session.' :
+           'Easy run or rest',
+      strength: isRaceDay ? null : daysOut > 3 ? 'Short Session A - 30 min, light weight, just activation' : null,
+      cals: isRaceDay ? 'Fuel hard - race day, no restrictions' : isTaper ? cals : '2400-2600',
+      preRun: isRaceDay ? raceAm : null,
+      postRun: isRaceDay ? 'Protein shake within 20 min. Full meal within 90 min. Ice legs. Nurse/pump.' : null,
+      meals: isRaceDay ? [
+        {time:'Pre-Race', name:'Race Morning Protocol', detail: raceAm},
+        {time:'During', name:'Race Fueling', detail:'Gel every 40 min. ' + raceNote},
+        {time:'Post-Race', name:'Recovery Priority', detail:'Protein shake immediately. Full meal within 90 min. Nurse/pump. Ice + legs up.'},
+        {time:'Evening', name:'Celebration Meal', detail:'Whatever you want. High-carb, high-protein. You earned this.'}
+      ] : isTaper ? [
+        {time:'Note', name:'Carb-Load Protocol', detail: carbLoad},
+        {time:'Breakfast', name:'Protein Berry Shake', detail:'Keep your normal shake + add extra banana'},
+        {time:'Lunch', name:'Higher Carb Lunch', detail:'Eggs + cottage cheese + 5-6 rice cakes + 2 bananas'},
+        {time:'Dinner', name:'Carb-Load Dinner', detail:'Pasta or large portion rice + lean protein + minimal fat/fibre'},
+        {time:'Evening', name:'Light Snack', detail:'Greek yogurt + honey. Drink 500ml electrolytes before bed.'}
+      ] : normalMeals()
+    };
+  });
+}
+
+function renderDays(weekId){
+  const days = getDays(weekId);
+  const grid = document.getElementById('dayGrid');
+  grid.innerHTML = '';
+  const w = allWeeks.find(x=>x.id===weekId);
+
+  const banner = document.createElement('div');
+  banner.style.cssText = 'grid-column:1/-1; background:var(--panel); border:1px solid var(--line); border-left:3px solid var(--gold); padding:12px 18px; border-radius:2px; font-size:14px;';
+  const labelSpan = document.createElement('span');
+  labelSpan.style.cssText = "font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-right:10px;";
+  labelSpan.textContent = w.label;
+  banner.appendChild(labelSpan);
+  banner.appendChild(document.createTextNode(' ' + w.phase));
+  grid.appendChild(banner);
+
+  days.forEach(d=>{
+    const card = document.createElement('div');
+    card.className = 'day-card';
+
+    const typeTagHtml = d.type==='race' ? '<span class="tag tag-cream">RACE DAY</span>' :
+                        d.type==='run' ? '<span class="tag tag-sage">Run</span>' :
+                        d.type==='strength' ? '<span class="tag tag-rose">Strength</span>' :
+                        d.type==='both' ? '<span class="tag tag-gold">Run + Strength</span>' :
+                        '<span class="tag" style="color:var(--dim);background:rgba(255,255,255,.04);border:1px solid var(--line)">Rest</span>';
+
+    let html = '<div class="day-head">' +
+                 '<span class="day-name"></span>' + typeTagHtml +
+               '</div>' +
+               '<div class="day-body">' +
+                 '<div class="cal-pill"></div>';
+
+    if(d.run){
+      html += '<div class="block-title run-t">Running</div>' +
+              '<div class="run-content" style="font-size:14px;margin-bottom:10px"></div>';
+    }
+    if(d.strength){
+      html += '<div class="block-title str-t">Strength</div>' +
+              '<div class="strength-content" style="font-size:14px;margin-bottom:10px"></div>';
+    }
+    if(d.preRun || d.postRun){
+      html += '<div class="block-title nut-t">Peri-Run Nutrition</div>';
+      if(d.preRun) html += '<div class="meal-row"><span class="meal-time">Pre-Run</span><span class="pre-run meal-text" style="font-size:13px"></span></div>';
+      if(d.postRun) html += '<div class="meal-row"><span class="meal-time">Post-Run</span><span class="post-run meal-text" style="font-size:13px;color:var(--gold)"></span></div>';
+    }
+    if(d.meals && d.meals.length){
+      html += '<div class="block-title nut-t">Meals</div><div class="meals-container"></div>';
+    }
+    html += '</div>';
+    card.innerHTML = html;
+
+    card.querySelector('.day-name').textContent = d.day;
+    card.querySelector('.cal-pill').textContent = '~ ' + d.cals + ' cal';
+    if(d.run) card.querySelector('.run-content').textContent = d.run;
+    if(d.strength) card.querySelector('.strength-content').textContent = d.strength;
+    if(d.preRun) card.querySelector('.pre-run').textContent = d.preRun;
+    if(d.postRun) card.querySelector('.post-run').textContent = d.postRun;
+    if(d.meals && d.meals.length){
+      const mc = card.querySelector('.meals-container');
+      d.meals.forEach(m=>{
+        const row = document.createElement('div');
+        row.className = 'meal-row';
+        row.innerHTML = '<span class="meal-time"></span><div class="meal-text"><strong></strong><br><span class="detail-text"></span></div>';
+        row.querySelector('.meal-time').textContent = m.time;
+        row.querySelector('strong').textContent = m.name;
+        row.querySelector('.detail-text').textContent = m.detail;
+        mc.appendChild(row);
+      });
+    }
+
+    grid.appendChild(card);
+  });
+}
+
+const races = [
+  {mo:'May', dn:'31', yr:'2025', name:'Saskatoon Half Marathon', tag:'Road - Sub-2:00:00',
+   about:'Your first benchmark. Road race, manageable. Prove the sub-2 is already yours.',
+   protocols:[
+    {t:'48hrs Before', c:'Carb-load: 8-10g carbs/kg. Pasta, rice, banana. Cut fibre and fat. Salt your food liberally.'},
+    {t:'Race Morning', c:'Protein shake + 2 rice cakes + honey. 90 min before. 500ml electrolytes. Nothing new.'},
+    {t:'During Race', c:'Gel at km 7, 12, 17. Sip water every station. Target 6:40-6:50/km. Even splits.'},
+    {t:'Post-Race', c:'Protein shake within 20 min. Full meal within 90 min. Nurse/pump. Ice legs 20 min.'}
+  ]},
+  {mo:'Jul', dn:'11', yr:'2025', name:'Sinister 7 Half', tag:'Technical Trail - Elevation',
+   about:'Elevation changes = 10-15% higher calorie burn. Run by effort not pace. Real food works great here.',
+   protocols:[
+    {t:'48hrs Before', c:'+20% carbs vs road protocol. Sodium-load: salt every meal. Extra electrolyte drinks.'},
+    {t:'Race Morning', c:'Oats + banana + almond butter. 120 min before. Pack real food: dates, banana pieces.'},
+    {t:'During Race', c:'Mix gels + real food. 60g carbs/hour. Salt tabs every 45 min if hot. Never skip an aid station.'},
+    {t:'Post-Race', c:'Anti-inflammatory dinner: salmon + sweet potato + greens. Tart cherry supplement.'}
+  ]},
+  {mo:'Aug', dn:'01', yr:'2025', name:'Death Race Half', tag:'Extreme Trail - Peak Demand',
+   about:'Most demanding race of your season. Calorie needs are extreme. Eat before you are hungry.',
+   protocols:[
+    {t:'72hrs Before', c:'Full 3-day carb-load. +300 cal above normal daily. Sodium-load: electrolytes every meal.'},
+    {t:'Race Morning', c:'Large oats + 2 bananas + honey + salt. Pack boiled potatoes, rice balls, dates as real food.'},
+    {t:'During Race', c:'Eat every 30 min without fail. If nauseous: saltines + broth. Keep eating regardless.'},
+    {t:'Recovery', c:'5 days no running. High-protein, high-carb, anti-inflammatory. Sleep is the training now.'}
+  ]},
+  {mo:'Aug', dn:'22', yr:'2025', name:'Black Spur Half', tag:'Trail - 21 Days Post Death Race',
+   about:'Recovery nutrition IS your training between these two races. Arrive fueled and recovered.',
+   protocols:[
+    {t:'Aug 1-15', c:'160g+ protein daily. Tart cherry, omega-3. No calorie deficit. Sleep every chance you get.'},
+    {t:'Race Week', c:'Standard carb-load from Aug 20. Keep it simple - you know what works for your body now.'},
+    {t:'During Race', c:'Trust your fitness. Same gel protocol. You are more recovered than you feel.'},
+    {t:'Post-Race', c:'Fuel hard through September. Fort Mac is your peak performance target.'}
+  ]},
+  {mo:'Sep', dn:'20', yr:'2025', name:'Fort McMurray Half', tag:'Road - Season Performance Peak',
+   about:'Your fitness peaks here. Full season of racing has built your aerobic engine. PR attempt.',
+   protocols:[
+    {t:'48hrs Before', c:'Your 5th carb-load - you have mastered this. Perfect execution. Trust your body.'},
+    {t:'Race Morning', c:'Your proven meal. Nothing new. You have done this. Execute with confidence.'},
+    {t:'During Race', c:'Aggressive early pace is earned here. Gel at km 7, 12. Negative split if possible.'},
+    {t:'Post-Race', c:'Begin Grizzly taper. Cold-weather nutrition adjustments start. Extra carbs + fat.'}
+  ]},
+  {mo:'Oct', dn:'11', yr:'2025', name:'Grizzly Ultra Half', tag:'Trail - Cold - Season Finale',
+   about:'Cold conditions add 10-15% calorie burn. Trail format. Strong finish to an extraordinary season.',
+   protocols:[
+    {t:'Cold Prep', c:'Extra carbs + fat pre-race. Hot oatmeal + almond butter morning. Warm clothing layers.'},
+    {t:'Race Morning', c:'Hot oatmeal + almond butter. Keep gels inside clothing (stiff in cold). Hot broth at aid stations.'},
+    {t:'During Race', c:'Drink even if not thirsty - cold suppresses thirst. Warm gloves until fully warmed up.'},
+    {t:'Off-Season', c:'Oct 12-Jan: recomp phase. Slight deficit (-250 cal), heavy strength. Build for Big Island.'}
+  ]},
+  {mo:'Mar', dn:'14', yr:'2026', name:'Big Island Hawaii Full Marathon', tag:'Road - Full - Heat Strategy',
+   about:'Your A-race. Heat and humidity demand early conservative pacing and aggressive hydration.',
+   protocols:[
+    {t:'Build Phase', c:'Jan-Feb: Performance fueling, no deficit. 3+ hour long runs. Practice heat runs if possible.'},
+    {t:'72hrs Before', c:'Full 3-day carb-load. 10g carbs/kg. Familiar foods only. Pre-hydrate with extra sodium.'},
+    {t:'Race Morning', c:'Early start ~5am. Shake + rice cakes + banana 90 min before. Electrolytes. Ice ready.'},
+    {t:'During Race', c:'Gel every 30-40 min from km 10. 750ml+/hour. Salt tabs every 45 min. Walk aid stations.'},
+    {t:'Heat Strategy', c:'Ice in hat/sports bra at aid stations. Pour water on wrists and neck. Accept slower early pace.'},
+    {t:'Finish Line', c:'You have earned everything. 2 weeks complete rest. Refeed. Celebrate. You did it.'}
+  ]}
+];
+
+function buildRaceCards(){
+  const cont = document.getElementById('raceCards');
+  races.forEach(r=>{
+    const card = document.createElement('div');
+    card.className = 'race-card';
+    card.innerHTML =
+      '<div class="race-dt">' +
+        '<div class="r-mo"></div><div class="r-dn"></div><div class="r-yr"></div>' +
+      '</div>' +
+      '<div class="race-info">' +
+        '<div class="race-title"></div>' +
+        '<span class="tag tag-gold race-tag"></span>' +
+        '<p class="race-about" style="font-size:14px;color:var(--dim);margin:8px 0 12px"></p>' +
+        '<div class="race-protocols"></div>' +
+      '</div>';
+    card.querySelector('.r-mo').textContent = r.mo;
+    card.querySelector('.r-dn').textContent = r.dn;
+    card.querySelector('.r-yr').textContent = r.yr;
+    card.querySelector('.race-title').textContent = r.name;
+    card.querySelector('.race-tag').textContent = r.tag;
+    card.querySelector('.race-about').textContent = r.about;
+    const protos = card.querySelector('.race-protocols');
+    r.protocols.forEach(p=>{
+      const div = document.createElement('div');
+      div.className = 'proto';
+      div.innerHTML = '<div class="proto-t"></div><p></p>';
+      div.querySelector('.proto-t').textContent = p.t;
+      div.querySelector('p').textContent = p.c;
+      protos.appendChild(div);
+    });
+    cont.appendChild(card);
+  });
+}
+
+const grocPhases = [
+  {label:'Base Training', id:'g1'},
+  {label:'Race Week', id:'g2'},
+  {label:'Long Run Week', id:'g3'},
+  {label:'Recovery Week', id:'g4'},
+  {label:'Off-Season / Recomp', id:'g5'}
+];
+let currentGroc = 'g1';
+
+const groceryLists = {
+  g1: {
+    title:'Base Training Week',
+    note:'Full training week with 4-5 runs and 3 strength sessions. ~2400-2600 cal/day.',
+    cats:[
+      {title:'Protein',items:['Salmon fillets (3-4)','Chicken thighs (1kg)','Lean ground beef or bison (500g)','Eggs (18 count)','Greek yogurt (2L tub)','Cottage cheese (large tub)','Whey or plant protein powder']},
+      {title:'Carbs & Fuel',items:['Rolled oats (large bag)','White rice (2kg)','Potatoes (1kg)','Sourdough bread','Rice cakes (2 packages)','Bananas (2 bunches)','Pasta (500g)']},
+      {title:'Fruits & Veg',items:['Mixed frozen berries (1kg)','Fresh spinach / kale','Broccoli + zucchini','Sweet potatoes (4)','Cherry tomatoes','Avocados (4-5)','Lemon (4)']},
+      {title:'Fats & Seeds',items:['Hemp seeds (bag)','Ground flaxseed (bag)','Pumpkin seeds (bag)','Walnuts','Almond butter','Olive oil','Coconut oil or butter']},
+      {title:'Dairy & Nursing',items:['Kefir (1L)','Full-fat Greek yogurt','Whole milk or oat milk','Brewers yeast (supplement)','Fenugreek tea']},
+      {title:'Race / Run Fuel',items:['Energy gels (6-8)','Electrolyte mix (LMNT or similar)','Dates or Medjool dates','Honey','Dark chocolate (85%)']},
+      {title:'Supplements',items:['Postnatal multivitamin','Omega-3 / DHA','Vitamin D3','Magnesium glycinate','Tart cherry extract','Collagen powder']}
+    ]
+  },
+  g2: {
+    title:'Race Week Grocery List',
+    note:'Focus on carbs, easily digestible foods, extra electrolytes. Cut high-fibre items.',
+    cats:[
+      {title:'Carb Load Priority',items:['Pasta (1kg)','White rice (extra bag)','Bread (white sourdough)','Potatoes (1.5kg)','Bananas (3 bunches)','Honey + maple syrup','Rice cakes (3 packages)']},
+      {title:'Lean Protein (Low Fat)',items:['Chicken breast (1kg)','Eggs (12)','Greek yogurt','Cottage cheese','Tuna cans (3)']},
+      {title:'Race Day Fuel',items:['Energy gels (10-12)','Salt tabs / sodium caps','Electrolyte sachets (10+)','Dates + banana chips','Gummy bears (race pocket fuel)']},
+      {title:'Easy Digestion Foods',items:['White bread (not whole grain)','Sports drinks','Chicken broth (sodium)','Crackers (low fibre)','Applesauce pouches']},
+      {title:'Post-Race Recovery',items:['Chocolate milk (1L)','Protein powder','Tart cherry juice','Berries (frozen)','Salmon (for recovery dinner)']}
+    ]
+  },
+  g3: {
+    title:'Long Run Week (15-20km+)',
+    note:'Higher calories, extra carbs, big post-run recovery focus.',
+    cats:[
+      {title:'Pre-Run Staples',items:['Oats (extra)','Bananas (3 bunches)','Honey','Almond butter (large jar)','Maple syrup']},
+      {title:'During Run Fuel',items:['Energy gels (6-8)','Chews / dates','Electrolyte mix (2 week supply)','Nuun tablets']},
+      {title:'Post-Run Recovery',items:['Chocolate milk (1.5L)','Greek yogurt (2L)','Whey protein','Granola','Tart cherry juice']},
+      {title:'High-Calorie Meals',items:['Salmon (4 fillets)','Sweet potatoes (1kg)','White rice (2kg)','Avocados (6)','Full-fat dairy items']},
+      {title:'Anti-Inflammatory',items:['Turmeric + black pepper','Ginger (fresh)','Frozen berries (2kg)','Omega-3 supplement','Walnuts (large bag)']}
+    ]
+  },
+  g4: {
+    title:'Recovery Week',
+    note:'Lower calories, high anti-inflammatory foods, still high protein. Let the body rebuild.',
+    cats:[
+      {title:'Anti-Inflammatory Priority',items:['Salmon (3-4 portions)','Sardines in olive oil','Turmeric','Fresh ginger','Frozen blueberries + cherries','Tart cherry juice','Walnuts']},
+      {title:'Gentle Protein',items:['Eggs (18)','Cottage cheese','Greek yogurt','Chicken breast','Lentils (gentle on gut)']},
+      {title:'Nourishing Carbs',items:['Sweet potatoes','Brown rice (lighter option)','Oats','Bananas','Sourdough (small loaf)']},
+      {title:'Gut Health',items:['Kefir (2L)','Kombucha','Kimchi or sauerkraut','Bone broth','Green tea']},
+      {title:'Nursing Support',items:['Brewers yeast','Fenugreek tea','Oats (galactagogue)','Flaxseed','Sesame seeds']}
+    ]
+  },
+  g5: {
+    title:'Off-Season / Recomp Phase (Nov-Jan)',
+    note:'Slight deficit (-250 cal). High protein. Heavy strength. Build muscle, lose fat. Protect milk supply.',
+    cats:[
+      {title:'High Protein Focus',items:['Chicken breast (1.2kg)','Lean beef mince (500g)','Eggs (18)','Cottage cheese (large)','Greek yogurt (2L)','Canned tuna (6 cans)','Protein powder']},
+      {title:'Controlled Carbs',items:['Oats','Sweet potato (1kg)','Brown rice (1kg)','Bananas','Rice cakes (1 pack)','Legumes (lentils, chickpeas)']},
+      {title:'Body Composition Veg',items:['Spinach (large bag)','Broccoli (2 heads)','Zucchini','Bell peppers','Cauliflower','Brussels sprouts']},
+      {title:'Healthy Fats',items:['Avocados (4)','Walnuts + almonds','Almond butter','Olive oil','Fatty fish weekly','Chia seeds']},
+      {title:'Recomp Supplements',items:['Creatine monohydrate (3-5g/day)','Postnatal multi','Magnesium','Vitamin D','Collagen','Omega-3']}
+    ]
+  }
+};
+
+let checkStates = {};
+
+function buildGrocWeekBar(){
+  const bar = document.getElementById('grocWeekBar');
+  grocPhases.forEach(p=>{
+    const btn = document.createElement('button');
+    btn.className = 'wbtn' + (p.id===currentGroc?' active':'');
+    btn.textContent = p.label;
+    btn.onclick = function(){ selectGroc(p.id); };
+    bar.appendChild(btn);
+  });
+}
+
+function selectGroc(id){
+  currentGroc = id;
+  document.querySelectorAll('#grocWeekBar .wbtn').forEach((b,i)=>{
+    b.classList.toggle('active', grocPhases[i].id===id);
+  });
+  renderGroc(id);
+}
+
+function renderGroc(id){
+  const list = groceryLists[id];
+  const cont = document.getElementById('grocContent');
+  cont.innerHTML = '';
+
+  const callout = document.createElement('div');
+  callout.className = 'callout';
+  callout.style.marginBottom = '20px';
+  const strong = document.createElement('strong');
+  strong.textContent = list.title;
+  callout.appendChild(strong);
+  callout.appendChild(document.createTextNode(' - ' + list.note));
+  cont.appendChild(callout);
+
+  const grid = document.createElement('div');
+  grid.className = 'grocery-grid';
+  cont.appendChild(grid);
+
+  list.cats.forEach(cat=>{
+    const div = document.createElement('div');
+    div.className = 'g-cat';
+    const h4 = document.createElement('h4');
+    h4.textContent = cat.title;
+    div.appendChild(h4);
+    cat.items.forEach((item,i)=>{
+      const key = id + '-' + cat.title + '-' + i;
+      const checked = checkStates[key] || false;
+      const itemDiv = document.createElement('div');
+      itemDiv.className = 'g-item' + (checked?' done':'');
+      itemDiv.id = 'gi-' + key;
+      const cb = document.createElement('input');
+      cb.type = 'checkbox';
+      cb.id = 'cb-' + key;
+      cb.checked = checked;
+      cb.onchange = function(){ toggleGroc(key); };
+      const label = document.createElement('label');
+      label.htmlFor = 'cb-' + key;
+      label.textContent = item;
+      itemDiv.appendChild(cb);
+      itemDiv.appendChild(label);
+      div.appendChild(itemDiv);
+    });
+    grid.appendChild(div);
+  });
+}
+
+function toggleGroc(key){
+  checkStates[key] = !checkStates[key];
+  const item = document.getElementById('gi-'+key);
+  if(item) item.classList.toggle('done', checkStates[key]);
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  buildSessions();
+  buildWeekBar();
+  renderDays('w1');
+  buildRaceCards();
+  buildGrocWeekBar();
+  renderGroc('g1');
+});
+</script>
+
 </body>
 </html>
